@@ -13,5 +13,4 @@ const registerRouter_all = () => {
     })
   return compose(routers)
 }
-
 module.exports = registerRouter_all

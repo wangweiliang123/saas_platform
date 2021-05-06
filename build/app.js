@@ -28,7 +28,7 @@ error(app);
 app.use((ctx, next) => __awaiter(void 0, void 0, void 0, function* () {
     //挂载到util中
     ctx.util = {
-        mysql: require('./db_operation/mysql')
+        mysql: require('./db_operation/mysql'),
     };
     yield next();
 }));
