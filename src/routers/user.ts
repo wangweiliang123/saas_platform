@@ -1,5 +1,5 @@
 // 用户服务
-const UserController = require("../controllers/user_controller")
+const UserController = require('../controllers/user_controller')
 const router_user = require('koa-router')()
 
 router_user.prefix('/user')

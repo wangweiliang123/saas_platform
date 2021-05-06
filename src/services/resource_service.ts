@@ -1,5 +1,5 @@
 module.exports = {
-    getResourceAll: async ()=>{
-        return ""
-    }
+  getResourceAll: async () => {
+    return ''
+  },
 }

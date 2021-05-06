@@ -13,5 +13,8 @@ module.exports = {
         browser: true,
         es6: true,
     },
-    rules:{}
+    rules: {
+        '@typescript-eslint/no-var-requires': 0,
+        "@typescript-eslint/no-explicit-any": ["off"]
+    }
 }

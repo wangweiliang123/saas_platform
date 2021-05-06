@@ -8,7 +8,7 @@ const json = require('koa-json')
 const error = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
-const registerRouter  = require('./routers')
+const registerRouter = require('./routers')
 
 // error handler
 error(app)
@@ -17,10 +17,10 @@ error(app)
 /*
  通过一个中间件，把所有的工具关联起来
 */
-app.use(async (ctx:any, next:any) => {
+app.use(async (ctx: any, next: any) => {
   //挂载到util中
   ctx.util = {
-    mysql: require('./db_operation/mysql')
+    mysql: require('./db_operation/mysql'),
   }
   await next()
 })
@@ -41,20 +41,18 @@ app.use(
 )
 
 // logger
-app.use(async (ctx:any, next:any) => {
-  const start = new Date().getTime();
+app.use(async (ctx: any, next: any) => {
+  const start = new Date().getTime()
   await next()
-  const ms:number = new Date().getTime() - start
+  const ms: number = new Date().getTime() - start
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 
 // routes
 app.use(registerRouter())
 
-
-
 // error-handling
-app.on('error', (err:any, ctx:any) => {
+app.on('error', (err: any, ctx: any) => {
   console.error('server error', err, ctx)
 })
 

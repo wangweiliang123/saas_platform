@@ -1,13 +1,5 @@
-.DS_Store
 node_modules
-/dist
-/dist-pre
-/dist-prod
-/dist-test
-
-# local env files
-.env.local
-.env.*.local
+log
 
 # Log files
 npm-debug.log*
