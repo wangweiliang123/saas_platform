@@ -21,6 +21,7 @@ app.use(async (ctx: any, next: any) => {
   //挂载到util中
   ctx.util = {
     mysql: require('./db_operation/mysql'),
+    mongo: require('./db_operation/mongodb'),
   }
   await next()
 })
