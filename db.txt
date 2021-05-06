@@ -1,0 +1,2 @@
+mysql创建数据库：
+    1.create database if not exists saas_platform;
