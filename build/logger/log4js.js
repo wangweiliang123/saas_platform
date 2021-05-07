@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require('path');
 // 日志根目录
-const baseLogPath = path.resolve(__dirname, '../logs');
+const baseLogPath = path.resolve(__dirname, '../../logs');
 // 错误日志目录
 const errorPath = '/error';
 // 错误日志文件名
@@ -27,6 +27,12 @@ const infoPath = '/info';
 const infoFileName = 'info';
 // 信息日志输出完整路径
 const infoLogPath = baseLogPath + infoPath + '/' + infoFileName;
+// sql日志目录
+const sqlPath = '/sql';
+// 信息日志文件名
+const sqlFileName = 'sql';
+// 信息日志输出完整路径
+const sqlLogPath = baseLogPath + sqlPath + '/' + sqlFileName;
 module.exports = {
     // 日志格式等设置
     appenders: {
@@ -39,8 +45,8 @@ module.exports = {
             pattern: '-yyyy-MM-dd-hh.log',
             alwaysIncludePattern: true,
             encoding: 'utf-8',
-            maxLogSize: 1000,
-            numBackups: 3,
+            maxLogSize: 5000,
+            numBackups: 5,
             daysToKeep: 30,
             path: errorPath,
             layout: {
@@ -53,8 +59,8 @@ module.exports = {
             pattern: '-yyyy-MM-dd-hh.log',
             alwaysIncludePattern: true,
             encoding: 'utf-8',
-            maxLogSize: 1000,
-            numBackups: 3,
+            maxLogSize: 5000,
+            numBackups: 5,
             path: reqPath,
             daysToKeep: 30,
             layout: {
@@ -67,8 +73,8 @@ module.exports = {
             pattern: '-yyyy-MM-dd-hh.log',
             alwaysIncludePattern: true,
             encoding: 'utf-8',
-            maxLogSize: 1000,
-            numBackups: 3,
+            maxLogSize: 5000,
+            numBackups: 5,
             path: responsePath,
             daysToKeep: 30,
             layout: {
@@ -81,8 +87,22 @@ module.exports = {
             pattern: '-yyyy-MM-dd-hh.log',
             alwaysIncludePattern: true,
             encoding: 'utf-8',
-            maxLogSize: 1000,
-            numBackups: 3,
+            maxLogSize: 5000,
+            numBackups: 5,
+            path: responsePath,
+            daysToKeep: 30,
+            layout: {
+                type: 'basic',
+            },
+        },
+        sqlLogger: {
+            type: 'dateFile',
+            filename: sqlLogPath,
+            pattern: '-yyyy-MM-dd-hh.log',
+            alwaysIncludePattern: true,
+            encoding: 'utf-8',
+            maxLogSize: 5000,
+            numBackups: 5,
             path: responsePath,
             daysToKeep: 30,
             layout: {
@@ -106,6 +126,10 @@ module.exports = {
         },
         infoLogger: {
             appenders: ['infoLogger'],
+            level: 'info',
+        },
+        sqlLogger: {
+            appenders: ['sqlLogger'],
             level: 'info',
         },
         http: {

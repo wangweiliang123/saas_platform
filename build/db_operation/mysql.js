@@ -1,6 +1,8 @@
 "use strict";
-//封装mysql
+Object.defineProperty(exports, "__esModule", { value: true });
+const timer_1 = require("../utils/timer");
 const MysqlSettings = require('../configs/mysql.config');
+const logUtil = require('../logger/log4Util');
 const mysql = require('mysql');
 const pools = {}; //连接池
 const mysql_query = (sql, host = '127.0.0.1') => {
@@ -12,6 +14,7 @@ const mysql_query = (sql, host = '127.0.0.1') => {
         pools[host].getConnection((err, connection) => {
             //初始化连接池
             if (err) {
+                logUtil.logSql(JSON.stringify(err), '', timer_1.formatTime(new Date().getTime()));
                 return reject({
                     dataStatus: 0,
                     errInfo: err,
@@ -25,6 +28,7 @@ const mysql_query = (sql, host = '127.0.0.1') => {
                     //去数据库查询数据
                     connection.release(); //释放连接资源
                     if (err) {
+                        logUtil.logSql(JSON.stringify(err), '', timer_1.formatTime(new Date().getTime()));
                         return reject({
                             dataStatus: 0,
                             errInfo: err,
@@ -34,6 +38,7 @@ const mysql_query = (sql, host = '127.0.0.1') => {
                         });
                     }
                     else {
+                        logUtil.logSql(JSON.stringify(sql), '', timer_1.formatTime(new Date().getTime()));
                         resolve({
                             dataStatus: 1,
                             result: JSON.parse(JSON.stringify(results)),

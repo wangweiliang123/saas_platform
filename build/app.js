@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 const path = require('path');
 const staticPath = path.join(__dirname, '../public'); // 静态地址
 const viewsPath = path.join(__dirname, '../views'); // 模板地址
@@ -18,6 +19,7 @@ const json = require('koa-json');
 const error = require('koa-onerror');
 const bodyparser = require('koa-bodyparser');
 const registerRouter = require('./routers');
+const timer_1 = require("./utils/timer");
 // error handler
 error(app);
 // middlewares
@@ -43,15 +45,22 @@ app.use(views(viewsPath, {
 }));
 // logger
 app.use((ctx, next) => __awaiter(void 0, void 0, void 0, function* () {
+    ctx.util.logger.logRequest(ctx, timer_1.formatTime(new Date().getTime()));
     const start = new Date().getTime();
+    ctx.startTime = start;
     yield next();
-    const ms = new Date().getTime() - start;
-    ctx.util.logger.logConsole(`${ctx.method} ${ctx.url} - ${ms}ms`);
+    if (ctx.status === 404) {
+        ctx.throw(404);
+    }
+    ctx.endTime = new Date().getTime();
+    ctx.exeTime = ctx.endTime - ctx.startTime;
+    ctx.util.logger.logConsole(`${ctx.method} ${ctx.url} - ${ctx.exeTime}ms`);
+    ctx.util.logger.logResponse(ctx, timer_1.formatTime(new Date().getTime()));
 }));
 // routes
 app.use(registerRouter());
 // error-handling
 app.on('error', (err, ctx) => {
-    console.error('server error', err, ctx);
+    ctx.util.logger.logError(ctx, err, timer_1.formatTime(new Date().getTime()));
 });
 module.exports = app;

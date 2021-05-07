@@ -16,6 +16,7 @@ module.exports = {
     rules: {
         '@typescript-eslint/no-var-requires': 0,
         "@typescript-eslint/no-explicit-any": ["off"],
+        "@typescript-eslint/explicit-module-boundary-types": ["off"],
         "@typescript-eslint/no-this-alias": [
             "error",
             {

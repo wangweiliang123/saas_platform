@@ -8,6 +8,7 @@ const json = require('koa-json')
 const error = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const registerRouter = require('./routers')
+import {formatTime} from "./utils/timer"
 
 // error handler
 error(app)
@@ -42,10 +43,17 @@ app.use(
 
 // logger
 app.use(async (ctx: any, next: any) => {
+  ctx.util.logger.logRequest(ctx,formatTime(new Date().getTime()))
   const start = new Date().getTime()
+  ctx.startTime = start;
   await next()
-  const ms: number = new Date().getTime() - start
-  ctx.util.logger.logConsole(`${ctx.method} ${ctx.url} - ${ms}ms`)
+  if (ctx.status === 404) {
+    ctx.throw(404);
+  }
+  ctx.endTime = new Date().getTime();
+  ctx.exeTime = ctx.endTime - ctx.startTime;
+  ctx.util.logger.logConsole(`${ctx.method} ${ctx.url} - ${ctx.exeTime}ms`)
+  ctx.util.logger.logResponse(ctx,formatTime(new Date().getTime()))
 })
 
 // routes
@@ -53,7 +61,7 @@ app.use(registerRouter())
 
 // error-handling
 app.on('error', (err: any, ctx: any) => {
-  console.error('server error', err, ctx)
+  ctx.util.logger.logError(ctx, err, formatTime(new Date().getTime()))
 })
 
 module.exports = app
