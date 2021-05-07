@@ -43,7 +43,7 @@ app.use(require('koa-static')(staticPath));
 app.use(views(viewsPath, {
     extension: 'pug',
 }));
-// logger
+// logger及字段封装
 app.use((ctx, next) => __awaiter(void 0, void 0, void 0, function* () {
     ctx.util.logger.logRequest(ctx, timer_1.formatTime(new Date().getTime()));
     const start = new Date().getTime();
@@ -54,6 +54,26 @@ app.use((ctx, next) => __awaiter(void 0, void 0, void 0, function* () {
     }
     ctx.endTime = new Date().getTime();
     ctx.exeTime = ctx.endTime - ctx.startTime;
+    //封装固定字段
+    ctx.body.statusCode = ctx.status;
+    ctx.body.startTime = ctx.startTime;
+    ctx.body.endTime = ctx.endTime;
+    ctx.body.exeTime = ctx.exeTime;
+    if (ctx.body.dataStatus === undefined) {
+        ctx.body.dataStatus = "";
+    }
+    if (ctx.body.errInfo === undefined) {
+        ctx.body.errInfo = "";
+    }
+    if (ctx.body.errMessage === undefined) {
+        ctx.body.errMessage = "";
+    }
+    if (ctx.body.successMessage === undefined) {
+        ctx.body.successMessage = "";
+    }
+    if (ctx.body.result === undefined) {
+        ctx.body.result = "";
+    }
     ctx.util.logger.logConsole(`${ctx.method} ${ctx.url} - ${ctx.exeTime}ms`);
     ctx.util.logger.logResponse(ctx, timer_1.formatTime(new Date().getTime()));
 }));
