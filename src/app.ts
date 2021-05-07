@@ -47,33 +47,32 @@ app.use(async (ctx: any, next: any) => {
   const start = new Date().getTime()
   ctx.startTime = start;
   await next()
-  if (ctx.status === 404) {
-    ctx.throw(404);
-  }
   ctx.endTime = new Date().getTime();
   ctx.exeTime = ctx.endTime - ctx.startTime;
   //封装固定字段
-  ctx.body.statusCode = ctx.status;
-  ctx.body.startTime = ctx.startTime;
-  ctx.body.endTime = ctx.endTime;
-  ctx.body.exeTime = ctx.exeTime;
-  if(ctx.body.dataStatus === undefined){
-    ctx.body.dataStatus = ""
+  if(ctx.body){
+    ctx.body.statusCode = ctx.status;
+    ctx.body.startTime = ctx.startTime;
+    ctx.body.endTime = ctx.endTime;
+    ctx.body.exeTime = ctx.exeTime;
+    if(ctx.body.dataStatus === undefined){
+      ctx.body.dataStatus = ""
+    }
+    if(ctx.body.errInfo === undefined){
+      ctx.body.errInfo = ""
+    }
+    if(ctx.body.errMessage === undefined){
+      ctx.body.errMessage = ""
+    }
+    if(ctx.body.successMessage === undefined){
+      ctx.body.successMessage = ""
+    }
+    if(ctx.body.result === undefined){
+      ctx.body.result = ""
+    }
+    ctx.util.logger.logConsole(`${ctx.method} ${ctx.url} - ${ctx.exeTime}ms`)
+    ctx.util.logger.logResponse(ctx,formatTime(new Date().getTime()))
   }
-  if(ctx.body.errInfo === undefined){
-    ctx.body.errInfo = ""
-  }
-  if(ctx.body.errMessage === undefined){
-    ctx.body.errMessage = ""
-  }
-  if(ctx.body.successMessage === undefined){
-    ctx.body.successMessage = ""
-  }
-  if(ctx.body.result === undefined){
-    ctx.body.result = ""
-  }
-  ctx.util.logger.logConsole(`${ctx.method} ${ctx.url} - ${ctx.exeTime}ms`)
-  ctx.util.logger.logResponse(ctx,formatTime(new Date().getTime()))
 })
 
 // routes

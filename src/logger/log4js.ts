@@ -123,7 +123,7 @@ module.exports = {
       level: 'all',
     },
     resLogger: {
-      appenders: ['resLogger'],
+      appenders: ['resLogger', 'console'],
       level: 'info',
     },
     errorLogger: {
@@ -131,11 +131,11 @@ module.exports = {
       level: 'error',
     },
     infoLogger: {
-      appenders: ['infoLogger'],
+      appenders: ['infoLogger', 'console'],
       level: 'info',
     },
     sqlLogger: {
-      appenders: ['sqlLogger'],
+      appenders: ['sqlLogger', 'console'],
       level: 'info',
     },
     http: {

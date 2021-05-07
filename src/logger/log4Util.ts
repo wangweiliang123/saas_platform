@@ -11,7 +11,7 @@ const logUtil = {
   logResponse: {},
   logConsole: {},
   logInfo: {},
-  logSql:{}
+  logSql: {},
 }
 // 调用预先定义的日志名称
 const resLogger = log4js.getLogger('resLogger')
@@ -31,7 +31,7 @@ logUtil.logError = function (ctx: any, error: any, resTime: any) {
 // 封装请求日志
 logUtil.logRequest = function (ctx: any, resTime: any) {
   if (ctx) {
-    reqLogger.info(formatReqLog(ctx, resTime,1))
+    reqLogger.info(formatReqLog(ctx, resTime, 1))
   }
 }
 // 封装响应日志
@@ -54,48 +54,47 @@ logUtil.logInfo = function (info: any, ctx: any, resTime: any) {
 }
 //封装sql日志
 logUtil.logSql = function (sql: any, ctx: any, resTime: any) {
-    if (sql) {
-      sqlLogger.info(formatSqlLog(sql, ctx, resTime))
-    }
+  if (sql) {
+    sqlLogger.info(formatSqlLog(sql, ctx, resTime))
   }
-
+}
 
 //格式化sql日志
 const formatSqlLog = function (info: any, ctx: any, resTime: any) {
-    let req = null
-    if (ctx) {
-      req = ctx.request
-    }
-    const method = '' || req ? req.method : ''
-    let logText = ''
-    // sql日志开始
-    logText += '\n' + '*************** sql log start ***************' + '\n'
-    // sql内容
-    logText += 'info detail: ' + '\n' + JSON.stringify(info) + '\n'
-    // 访问方法
-    if (ctx) {
-      logText += '\n' + 'request method: ' + method + '\n'
-      // 请求原始地址
-      logText += 'request originalUrl:  ' + req.originalUrl + '\n'
-      // 客户端ip
-      logText += 'request client ip:  ' + req.ip + '\n'
-      // 请求参数
-      if (method === 'GET') {
-        logText += 'request query:  ' + JSON.stringify(req.query) + '\n'
-      } else {
-        logText += 'request body: ' + '\n' + JSON.stringify(req.body) + '\n'
-      }
-      // 响应内容
-      logText += 'response body: ' + '\n' + JSON.stringify(ctx.body) + '\n'
-    }
-    // 服务器响应时间
-    if (resTime) {
-      logText += 'response time: ' + resTime + '\n'
-    }
-    // sql日志结束
-    logText += '*************** sql log end ***************' + '\n'
-    return logText
+  let req = null
+  if (ctx) {
+    req = ctx.request
   }
+  const method = '' || req ? req.method : ''
+  let logText = ''
+  // sql日志开始
+  logText += '\n' + '*************** sql log start ***************' + '\n'
+  // sql内容
+  logText += 'info detail: ' + '\n' + JSON.stringify(info) + '\n'
+  // 访问方法
+  if (ctx) {
+    logText += '\n' + 'request method: ' + method + '\n'
+    // 请求原始地址
+    logText += 'request originalUrl:  ' + req.originalUrl + '\n'
+    // 客户端ip
+    logText += 'request client ip:  ' + req.ip + '\n'
+    // 请求参数
+    if (method === 'GET') {
+      logText += 'request query:  ' + JSON.stringify(req.query) + '\n'
+    } else {
+      logText += 'request body: ' + '\n' + JSON.stringify(req.body) + '\n'
+    }
+    // 响应内容
+    logText += 'response body: ' + '\n' + JSON.stringify(ctx.body) + '\n'
+  }
+  // 服务器响应时间
+  if (resTime) {
+    logText += 'response time: ' + resTime + '\n'
+  }
+  // sql日志结束
+  logText += '*************** sql log end ***************' + '\n'
+  return logText
+}
 //格式化打印日志
 const formatConsoleLog = function (info: any) {
   let logText = ''
@@ -151,11 +150,11 @@ const formatResLog = function (ctx: any, resTime: any) {
   // 响应日志开始
   logText += '\n' + '*************** response log start ***************' + '\n'
   // 添加请求日志
-  logText += formatReqLog(ctx.request, resTime,0)
+  logText += formatReqLog(ctx.request, resTime, 0)
   // 响应状态码
   logText += 'response status: ' + ctx.status + '\n'
   // 响应内容
-  logText += 'response body: ' + '\n' + JSON.stringify(ctx.body) + '\n'
+  logText += 'response body: ' + '\n' + JSON.stringify(ctx.body || '') + '\n'
   // 响应日志结束
   logText += '*************** response log end ***************' + '\n'
   return logText
@@ -167,7 +166,7 @@ const formatErrorLog = function (ctx: any, err: any, resTime: any) {
   // 错误信息开始
   logText += '\n' + '*************** error log start ***************' + '\n'
   // 添加请求日志
-  logText += formatReqLog(ctx.request, resTime,0)
+  logText += formatReqLog(ctx.request, resTime, 0)
   // 错误名称
   logText += 'err name: ' + err.name + '\n'
   // 错误信息
@@ -180,31 +179,31 @@ const formatErrorLog = function (ctx: any, err: any, resTime: any) {
 }
 
 // 格式化请求日志
-const formatReqLog = function (req: any, resTime: any,type:Number) {
+const formatReqLog = function (req: any, resTime: any, type: number) {
   let logText = ''
-  const method = req.method
+  const method = req ? req.method : ''
   // 响应信息结束
-  if(type === 1){
-    logText +='\n' +  '*************** request log start ***************' + '\n'
-   }
+  if (type === 1) {
+    logText += '\n' + '*************** request log start ***************' + '\n'
+  }
   // 访问方法
   logText += '\n' + 'request method: ' + method + '\n'
   // 请求原始地址
-  logText += 'request originalUrl:  ' + req.originalUrl + '\n'
+  logText += 'request originalUrl:  ' + req ? req.originalUrl : '' + '\n'
   // 客户端ip
-  logText += 'request client ip:  ' + req.ip + '\n'
+  logText += 'request client ip:  ' + req ? req.ip : '' + '\n'
   // 请求参数
   if (method === 'GET') {
-    logText += 'request query:  ' + JSON.stringify(req.query) + '\n'
+    logText += 'request query:  ' + JSON.stringify(req ? req.query : '') + '\n'
   } else {
-    logText += 'request body: ' + '\n' + JSON.stringify(req.body) + '\n'
+    logText += 'request body: ' + '\n' + JSON.stringify(req ? req.body : '') + '\n'
   }
   // 服务器响应时间
-  logText += 'response time: ' + resTime || '--' + '\n'
-   // 响应信息结束
-   if(type === 1){
-    logText +='\n' + '*************** request log end ***************' + '\n'
-   }
+  logText += 'response time: ' + resTime || '' + '\n'
+  // 响应信息结束
+  if (type === 1) {
+    logText += '\n' + '*************** request log end ***************' + '\n'
+  }
   return logText
 }
 
