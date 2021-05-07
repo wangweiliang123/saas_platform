@@ -58,19 +58,19 @@ app.use((ctx, next) => __awaiter(void 0, void 0, void 0, function* () {
         ctx.body.endTime = ctx.endTime;
         ctx.body.exeTime = ctx.exeTime;
         if (ctx.body.dataStatus === undefined) {
-            ctx.body.dataStatus = "";
+            ctx.body.dataStatus = '';
         }
         if (ctx.body.errInfo === undefined) {
-            ctx.body.errInfo = "";
+            ctx.body.errInfo = '';
         }
         if (ctx.body.errMessage === undefined) {
-            ctx.body.errMessage = "";
+            ctx.body.errMessage = '';
         }
         if (ctx.body.successMessage === undefined) {
-            ctx.body.successMessage = "";
+            ctx.body.successMessage = '';
         }
         if (ctx.body.result === undefined) {
-            ctx.body.result = "";
+            ctx.body.result = '';
         }
         ctx.util.logger.logConsole(`${ctx.method} ${ctx.url} - ${ctx.exeTime}ms`);
         ctx.util.logger.logResponse(ctx, timer_1.formatTime(new Date().getTime()));

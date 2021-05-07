@@ -8,7 +8,7 @@ const json = require('koa-json')
 const error = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const registerRouter = require('./routers')
-import {formatTime} from "./utils/timer"
+import { formatTime } from './utils/timer'
 
 // error handler
 error(app)
@@ -43,35 +43,35 @@ app.use(
 
 // logger及字段封装
 app.use(async (ctx: any, next: any) => {
-  ctx.util.logger.logRequest(ctx,formatTime(new Date().getTime()))
+  ctx.util.logger.logRequest(ctx, formatTime(new Date().getTime()))
   const start = new Date().getTime()
-  ctx.startTime = start;
+  ctx.startTime = start
   await next()
-  ctx.endTime = new Date().getTime();
-  ctx.exeTime = ctx.endTime - ctx.startTime;
+  ctx.endTime = new Date().getTime()
+  ctx.exeTime = ctx.endTime - ctx.startTime
   //封装固定字段
-  if(ctx.body){
-    ctx.body.statusCode = ctx.status;
-    ctx.body.startTime = ctx.startTime;
-    ctx.body.endTime = ctx.endTime;
-    ctx.body.exeTime = ctx.exeTime;
-    if(ctx.body.dataStatus === undefined){
-      ctx.body.dataStatus = ""
+  if (ctx.body) {
+    ctx.body.statusCode = ctx.status
+    ctx.body.startTime = ctx.startTime
+    ctx.body.endTime = ctx.endTime
+    ctx.body.exeTime = ctx.exeTime
+    if (ctx.body.dataStatus === undefined) {
+      ctx.body.dataStatus = ''
     }
-    if(ctx.body.errInfo === undefined){
-      ctx.body.errInfo = ""
+    if (ctx.body.errInfo === undefined) {
+      ctx.body.errInfo = ''
     }
-    if(ctx.body.errMessage === undefined){
-      ctx.body.errMessage = ""
+    if (ctx.body.errMessage === undefined) {
+      ctx.body.errMessage = ''
     }
-    if(ctx.body.successMessage === undefined){
-      ctx.body.successMessage = ""
+    if (ctx.body.successMessage === undefined) {
+      ctx.body.successMessage = ''
     }
-    if(ctx.body.result === undefined){
-      ctx.body.result = ""
+    if (ctx.body.result === undefined) {
+      ctx.body.result = ''
     }
     ctx.util.logger.logConsole(`${ctx.method} ${ctx.url} - ${ctx.exeTime}ms`)
-    ctx.util.logger.logResponse(ctx,formatTime(new Date().getTime()))
+    ctx.util.logger.logResponse(ctx, formatTime(new Date().getTime()))
   }
 })
 
