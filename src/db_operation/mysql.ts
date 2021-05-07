@@ -37,7 +37,7 @@ const mysql_query = (sql: string, host = '127.0.0.1') => {
               dataStatus: 1,
               result: JSON.parse(JSON.stringify(results)),
               errInfo: '',
-              errMessage: '执行数据库操作失败',
+              errMessage: '',
               successMessage: '执行数据库操作成功',
             })
           }

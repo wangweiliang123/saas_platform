@@ -7,7 +7,6 @@ const views = require('koa-views')
 const json = require('koa-json')
 const error = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
-const logger = require('koa-logger')
 const registerRouter = require('./routers')
 
 // error handler
@@ -22,6 +21,7 @@ app.use(async (ctx: any, next: any) => {
   ctx.util = {
     mysql: require('./db_operation/mysql'),
     mongo: require('./db_operation/mongodb'),
+    logger: require('./logger/log4Util'),
   }
   await next()
 })
@@ -32,7 +32,6 @@ app.use(
   }),
 )
 app.use(json())
-app.use(logger())
 app.use(require('koa-static')(staticPath))
 
 app.use(
@@ -46,7 +45,7 @@ app.use(async (ctx: any, next: any) => {
   const start = new Date().getTime()
   await next()
   const ms: number = new Date().getTime() - start
-  console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
+  ctx.util.logger.logConsole(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 
 // routes

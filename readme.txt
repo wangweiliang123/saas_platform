@@ -31,6 +31,12 @@
 整合路由
     1.安装依赖（npm install koa-compose -D）
     2.路由合并优化
+封装Mysql:
+封装MongoDB:
+封装Redis:
+封装Logger:
+    1.安装log4js(npm install log4js -S)
+
 
 
     

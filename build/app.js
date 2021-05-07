@@ -17,7 +17,6 @@ const views = require('koa-views');
 const json = require('koa-json');
 const error = require('koa-onerror');
 const bodyparser = require('koa-bodyparser');
-const logger = require('koa-logger');
 const registerRouter = require('./routers');
 // error handler
 error(app);
@@ -29,6 +28,8 @@ app.use((ctx, next) => __awaiter(void 0, void 0, void 0, function* () {
     //挂载到util中
     ctx.util = {
         mysql: require('./db_operation/mysql'),
+        mongo: require('./db_operation/mongodb'),
+        logger: require('./logger/log4Util'),
     };
     yield next();
 }));
@@ -36,7 +37,6 @@ app.use(bodyparser({
     enableTypes: ['json', 'form', 'text'],
 }));
 app.use(json());
-app.use(logger());
 app.use(require('koa-static')(staticPath));
 app.use(views(viewsPath, {
     extension: 'pug',
@@ -46,7 +46,7 @@ app.use((ctx, next) => __awaiter(void 0, void 0, void 0, function* () {
     const start = new Date().getTime();
     yield next();
     const ms = new Date().getTime() - start;
-    console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
+    ctx.util.logger.logConsole(`${ctx.method} ${ctx.url} - ${ms}ms`);
 }));
 // routes
 app.use(registerRouter());

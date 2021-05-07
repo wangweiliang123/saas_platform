@@ -13,8 +13,11 @@ const mysql_query = (sql, host = '127.0.0.1') => {
             //初始化连接池
             if (err) {
                 return reject({
+                    dataStatus: 0,
                     errInfo: err,
                     errMessage: '数据库连接失败',
+                    successMessage: '',
+                    result: [],
                 });
             }
             else
@@ -26,12 +29,17 @@ const mysql_query = (sql, host = '127.0.0.1') => {
                             dataStatus: 0,
                             errInfo: err,
                             errMessage: '执行数据库操作失败',
+                            result: [],
+                            successMessage: '',
                         });
                     }
                     else {
                         resolve({
                             dataStatus: 1,
                             result: JSON.parse(JSON.stringify(results)),
+                            errInfo: '',
+                            errMessage: '',
+                            successMessage: '执行数据库操作成功',
                         });
                     }
                 });

@@ -7,7 +7,7 @@ const MongoClient = MongoDB.MongoClient;
 // 获取操作数据库ID的方法
 const ObjectID = MongoDB.ObjectID;
 // 引入数据库的配置文件
-const Config = require('./config.js');
+const Config = require('../configs/mongodb.config');
 class DB {
     constructor() {
         this.dbClient = '';
@@ -29,7 +29,13 @@ class DB {
             if (!that.dbClient) {
                 MongoClient.connect(Config.dbUrl, { useNewUrlParser: true }, (err, client) => {
                     if (err) {
-                        reject(err);
+                        return reject({
+                            dataStatus: 0,
+                            errInfo: err,
+                            errMessage: '数据库连接失败',
+                            successMessage: '',
+                            result: {},
+                        });
                     }
                     else {
                         that.dbClient = client.db(Config.dbName);
@@ -49,10 +55,23 @@ class DB {
                 const result = db.collection(collectionName).find(json);
                 result.toArray(function (err, doc) {
                     if (err) {
-                        reject(err);
-                        return;
+                        return reject({
+                            dataStatus: 0,
+                            errInfo: err,
+                            errMessage: '执行数据库操作失败',
+                            successMessage: '',
+                            result: {},
+                        });
                     }
-                    resolve(doc);
+                    else {
+                        resolve({
+                            dataStatus: 1,
+                            result: doc,
+                            errMessage: '',
+                            errInfo: '',
+                            successMessage: '执行数据库操作成功',
+                        });
+                    }
                 });
             });
         });
@@ -63,12 +82,24 @@ class DB {
             this.connect().then((db) => {
                 db.collection(collectionName).updateOne(oldJson, {
                     $set: newJson,
-                }, (err, result) => {
+                }, (err, res) => {
                     if (err) {
-                        reject(err);
+                        return reject({
+                            dataStatus: 0,
+                            errInfo: err,
+                            errMessage: '执行数据库操作失败',
+                            successMessage: '',
+                            result: {},
+                        });
                     }
                     else {
-                        resolve(result);
+                        resolve({
+                            dataStatus: 1,
+                            result: res,
+                            errMessage: '',
+                            errInfo: '',
+                            successMessage: '执行数据库操作成功',
+                        });
                     }
                 });
             });
@@ -78,12 +109,24 @@ class DB {
     insert(collectionName, json) {
         return new Promise((resolve, reject) => {
             this.connect().then((db) => {
-                db.collection(collectionName).insertOne(json, function (err, result) {
+                db.collection(collectionName).insertOne(json, function (err, res) {
                     if (err) {
-                        reject(err);
+                        return reject({
+                            dataStatus: 0,
+                            errInfo: err,
+                            errMessage: '执行数据库操作失败',
+                            successMessage: '',
+                            result: {},
+                        });
                     }
                     else {
-                        resolve(result);
+                        resolve({
+                            dataStatus: 1,
+                            result: res,
+                            errMessage: '',
+                            errInfo: '',
+                            successMessage: '执行数据库操作成功',
+                        });
                     }
                 });
             });
@@ -93,12 +136,24 @@ class DB {
     remove(collectionName, json) {
         return new Promise((resolve, reject) => {
             this.connect().then((db) => {
-                db.collection(collectionName).removeOne(json, function (err, result) {
+                db.collection(collectionName).removeOne(json, function (err, res) {
                     if (err) {
-                        reject(err);
+                        return reject({
+                            dataStatus: 0,
+                            errInfo: err,
+                            errMessage: '执行数据库操作失败',
+                            successMessage: '',
+                            result: {},
+                        });
                     }
                     else {
-                        resolve(result);
+                        resolve({
+                            dataStatus: 1,
+                            result: res,
+                            errMessage: '',
+                            errInfo: '',
+                            successMessage: '执行数据库操作成功',
+                        });
                     }
                 });
             });

@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const UserServiceSql = require('../db_sqls/mysql_sql/user_sql');
 module.exports = {
-    getUserAll: (ctx, next) => __awaiter(void 0, void 0, void 0, function* () {
+    getUserAll: (ctx) => __awaiter(void 0, void 0, void 0, function* () {
         return new Promise((resolve, reject) => {
             ctx.util
                 .mysql(UserServiceSql.getUserAll())
