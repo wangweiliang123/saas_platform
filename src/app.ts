@@ -29,6 +29,7 @@ app.use(async (ctx: any, next: any) => {
     mysql: require('./db_operation/mysql'),
     mongo: require('./db_operation/mongodb'),
     logger: require('./logger/log4Util'),
+    redis: require('./db_operation/redis'),
   }
   await next()
 })

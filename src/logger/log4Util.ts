@@ -212,7 +212,6 @@ const formatReqLog = function (req: any, resTime: any, type: number) {
   if (type === 1) {
     logText += '\n' + '*************** request log end ***************' + '\n'
   }
-  console.log(logText)
   return logText
 }
 

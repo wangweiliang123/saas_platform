@@ -207,7 +207,6 @@ const formatReqLog = function (req, resTime, type) {
     if (type === 1) {
         logText += '\n' + '*************** request log end ***************' + '\n';
     }
-    console.log(logText);
     return logText;
 };
 module.exports = logUtil;

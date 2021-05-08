@@ -38,6 +38,7 @@ app.use((ctx, next) => __awaiter(void 0, void 0, void 0, function* () {
         mysql: require('./db_operation/mysql'),
         mongo: require('./db_operation/mongodb'),
         logger: require('./logger/log4Util'),
+        redis: require('./db_operation/redis'),
     };
     yield next();
 }));
