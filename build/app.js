@@ -19,7 +19,13 @@ const json = require('koa-json');
 const error = require('koa-onerror');
 const bodyparser = require('koa-bodyparser');
 const registerRouter = require('./routers');
+const session = require('koa-generic-session');
+const RedisGet = require('koa-redis');
+const RedisConfig = require('./configs/redis.config');
 const timer_1 = require("./utils/timer");
+const system_config_1 = require("./configs/system.config");
+//设置系统参数
+app.keys = system_config_1.appKeys;
 // error handler
 error(app);
 // middlewares
@@ -34,6 +40,21 @@ app.use((ctx, next) => __awaiter(void 0, void 0, void 0, function* () {
         logger: require('./logger/log4Util'),
     };
     yield next();
+}));
+//设置Session
+app.use(session({
+    prefix: system_config_1.sessionRedis,
+    HttpOnly: true,
+    key: system_config_1.sessionName,
+    cookie: {
+        maxAge: system_config_1.sessionMaxAge,
+    },
+    store: new RedisGet({
+        port: RedisConfig.port,
+        host: RedisConfig.host,
+        password: RedisConfig.password,
+        db: system_config_1.redisDatabaseForSession,
+    }), // 在Redis中放入一个session对象
 }));
 app.use(bodyparser({
     enableTypes: ['json', 'form', 'text'],

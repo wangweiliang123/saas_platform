@@ -8,8 +8,14 @@ const json = require('koa-json')
 const error = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const registerRouter = require('./routers')
+const session = require('koa-generic-session')
+const RedisGet = require('koa-redis')
+const RedisConfig = require('./configs/redis.config')
 import { formatTime } from './utils/timer'
+import { appKeys, sessionRedis, sessionName, redisDatabaseForSession, sessionMaxAge } from './configs/system.config'
 
+//设置系统参数
+app.keys = appKeys
 // error handler
 error(app)
 
@@ -26,6 +32,24 @@ app.use(async (ctx: any, next: any) => {
   }
   await next()
 })
+
+//设置Session
+app.use(
+  session({
+    prefix: sessionRedis, // 给session对象在redis存储的地址名前面添加的前缀内容
+    HttpOnly: true,
+    key: sessionName, // key名
+    cookie: {
+      maxAge: sessionMaxAge,
+    },
+    store: new RedisGet({
+      port: RedisConfig.port,
+      host: RedisConfig.host,
+      password: RedisConfig.password,
+      db: redisDatabaseForSession,
+    }), // 在Redis中放入一个session对象
+  }),
+)
 
 app.use(
   bodyparser({
