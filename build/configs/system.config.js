@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.redisDatabaseForSession = exports.sessionMaxAge = exports.sessionName = exports.sessionRedis = exports.appKeys = void 0;
+exports.tokenExpiresIn = exports.tokenSecret = exports.redisDatabaseForSession = exports.sessionMaxAge = exports.sessionName = exports.sessionRedis = exports.appKeys = void 0;
+//加密依赖
 const Keygrip = require('keygrip');
 //session,cookie加密key
 exports.appKeys = new Keygrip(['kjasdfjdl56sadfs', 'a4dfa54asdfwasd514'], 'sha256');
@@ -12,3 +13,7 @@ exports.sessionName = 'sessionForApp';
 exports.sessionMaxAge = 7 * 24 * 60 * 60 * 1000;
 // 储存的session的redis数据库
 exports.redisDatabaseForSession = 10;
+// token加密串
+exports.tokenSecret = 'asd5=45as_pdf./}.99adf';
+// token过期时间
+exports.tokenExpiresIn = '7d';

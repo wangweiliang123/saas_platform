@@ -39,6 +39,8 @@
     2.配置Redis
 封装Logger:
     1.安装log4js(npm install log4js -S)
+Token验证：
+    1.安装依赖（npm install jsonwebtoken -S）
 
 
 

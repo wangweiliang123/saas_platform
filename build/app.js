@@ -39,6 +39,7 @@ app.use((ctx, next) => __awaiter(void 0, void 0, void 0, function* () {
         mongo: require('./db_operation/mongodb'),
         logger: require('./logger/log4Util'),
         redis: require('./db_operation/redis'),
+        token: require('./token_settings'),
     };
     yield next();
 }));

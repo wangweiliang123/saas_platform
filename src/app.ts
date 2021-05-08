@@ -30,6 +30,7 @@ app.use(async (ctx: any, next: any) => {
     mongo: require('./db_operation/mongodb'),
     logger: require('./logger/log4Util'),
     redis: require('./db_operation/redis'),
+    token: require('./token_settings'),
   }
   await next()
 })
