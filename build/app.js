@@ -72,9 +72,9 @@ app.use((ctx, next) => __awaiter(void 0, void 0, void 0, function* () {
         if (ctx.body.result === undefined) {
             ctx.body.result = '';
         }
-        ctx.util.logger.logConsole(`${ctx.method} ${ctx.url} - ${ctx.exeTime}ms`);
-        ctx.util.logger.logResponse(ctx, timer_1.formatTime(new Date().getTime()));
     }
+    ctx.util.logger.logConsole(`${ctx.method} ${ctx.url} - ${ctx.exeTime}ms`);
+    ctx.util.logger.logResponse(ctx, timer_1.formatTime(new Date().getTime()));
 }));
 // routes
 app.use(registerRouter());

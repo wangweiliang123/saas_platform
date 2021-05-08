@@ -139,7 +139,7 @@ module.exports = {
       level: 'info',
     },
     http: {
-      appenders: ['http'],
+      appenders: ['http', 'console'],
       level: 'info',
     },
   },

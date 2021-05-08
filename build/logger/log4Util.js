@@ -70,6 +70,8 @@ const formatSqlLog = function (info, ctx, resTime) {
     // 访问方法
     if (ctx) {
         logText += '\n' + 'request method: ' + method + '\n';
+        //请求完整url
+        logText += 'request Url:  ' + (ctx.request.href || '') + '\n';
         // 请求原始地址
         logText += 'request originalUrl:  ' + req.originalUrl + '\n';
         // 客户端ip
@@ -111,13 +113,15 @@ const formatInfoLog = function (info, ctx, resTime) {
     }
     const method = '' || req ? req.method : '';
     let logText = '';
-    // 打印日志开始
+    // 消息日志开始
     logText += '\n' + '*************** info log start ***************' + '\n';
-    // 打印内容
+    // 消息内容
     logText += 'info detail: ' + '\n' + JSON.stringify(info) + '\n';
     // 访问方法
     if (ctx) {
         logText += '\n' + 'request method: ' + method + '\n';
+        //请求完整url
+        logText += 'request Url:  ' + (ctx.request.href || '') + '\n';
         // 请求原始地址
         logText += 'request originalUrl:  ' + req.originalUrl + '\n';
         // 客户端ip
@@ -136,7 +140,7 @@ const formatInfoLog = function (info, ctx, resTime) {
     if (resTime) {
         logText += 'response time: ' + resTime + '\n';
     }
-    // 打印日志结束
+    // 消息日志结束
     logText += '*************** info log end ***************' + '\n';
     return logText;
 };
@@ -182,10 +186,14 @@ const formatReqLog = function (req, resTime, type) {
     }
     // 访问方法
     logText += '\n' + 'request method: ' + method + '\n';
-    // 请求原始地址
-    logText += 'request originalUrl:  ' + req ? req.originalUrl : '' + '\n';
-    // 客户端ip
-    logText += 'request client ip:  ' + req ? req.ip : '' + '\n';
+    if (req) {
+        //请求完整url
+        logText += 'request Url:  ' + (req.href || '') + '\n';
+        // 请求原始地址
+        logText += 'request originalUrl:  ' + (req.originalUrl || '') + '\n';
+        // 客户端ip
+        logText += 'request client ip:  ' + (req.ip || '') + '\n';
+    }
     // 请求参数
     if (method === 'GET') {
         logText += 'request query:  ' + JSON.stringify(req ? req.query : '') + '\n';
@@ -199,6 +207,7 @@ const formatReqLog = function (req, resTime, type) {
     if (type === 1) {
         logText += '\n' + '*************** request log end ***************' + '\n';
     }
+    console.log(logText);
     return logText;
 };
 module.exports = logUtil;
