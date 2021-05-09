@@ -102,11 +102,11 @@ app.use(async (ctx: any, next: any) => {
   ctx.util.logger.logResponse(ctx, formatTime(new Date().getTime()))
 })
 
-// routes
-app.use(registerRouter())
-
 //token检查
 app.use(tokenCheck)
+
+// routes
+app.use(registerRouter())
 
 // error-handling
 app.on('error', (err: any, ctx: any) => {

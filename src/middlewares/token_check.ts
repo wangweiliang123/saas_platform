@@ -1,7 +1,6 @@
 export {}
 import { checkToken, uncheckToken } from '../configs/system.config'
 const tokenCheck = async (ctx: any, next: any, type: number) => {
-  console.log(55555666)
   if ((checkToken !== true && type !== 1) || uncheckToken) {
     await next()
   } else {
@@ -13,27 +12,42 @@ const tokenCheck = async (ctx: any, next: any, type: number) => {
       const errInfo = '用户未登录或登录已过期'
       const headerToken = ctx.request.headers['authorization'] || ctx.request.headers['token']
       const sessionToken = ctx.session.token
+      if (!headerToken) {
+        console.log('此处存在token篡改行为，需发警告邮件')
+        ctx.status = 203
+        ctx.body = {
+          errMessage: '用户登录信息错误，请重新登录',
+        }
+      }
       if (headerToken !== sessionToken) {
         console.log('此处存在token篡改行为，需发警告邮件')
-        ctx.throw(203)
-        ctx.body.errMessage = '用户登录信息错误，请重新登录'
+        ctx.status = 203
+        ctx.body = {
+          errMessage: '用户登录信息错误，请重新登录',
+        }
         return
       } else {
         const tokenInfo = ctx.util.token.getToken(headerToken)
         if (!tokenInfo) {
-          ctx.throw(203)
-          ctx.body.errMessage = errInfo
+          ctx.status = 203
+          ctx.body = {
+            errMessage: errInfo,
+          }
           return
         } else {
           if (!ctx.request.header.userAgent || !ctx.request.headers['hardware']) {
-            ctx.throw(203)
-            ctx.body.errMessage = '用户登录信息错误，请重新登录'
+            ctx.status = 203
+            ctx.body = {
+              errMessage: '用户登录信息错误，请重新登录',
+            }
             return
           } else {
             if (ctx.request.header['user-agent'] !== ctx.request.headers['hardware']) {
               console.log('此处存在token篡改行为，需发警告邮件')
-              ctx.throw(203)
-              ctx.body.errMessage = '用户登录信息错误，请重新登录'
+              ctx.status = 203
+              ctx.body = {
+                errMessage: '用户登录信息错误，请重新登录',
+              }
               return
             }
           }
@@ -44,21 +58,27 @@ const tokenCheck = async (ctx: any, next: any, type: number) => {
               const redisToken = res.result
               if (redisToken !== headerToken) {
                 console.log('此处存在token篡改行为，需发警告邮件')
-                ctx.throw(203)
-                ctx.body.errMessage = '用户登录信息错误，请重新登录'
+                ctx.status = 203
+                ctx.body = {
+                  errMessage: '用户登录信息错误，请重新登录',
+                }
                 return
               } else {
                 const timeNow = new Date().getTime()
                 const overTime = Number(tokenInfo.exp || 0)
                 if (timeNow > overTime) {
-                  ctx.throw(203)
-                  ctx.body.errMessage = '登录信息已过期，请重新登录'
+                  ctx.status = 203
+                  ctx.body = {
+                    errMessage: '登录信息已过期，请重新登录',
+                  }
                   return
                 }
               }
             } else {
-              ctx.throw(203)
-              ctx.body.errMessage = errInfo
+              ctx.status = 203
+              ctx.body = {
+                errMessage: errInfo,
+              }
               return
             }
           })
