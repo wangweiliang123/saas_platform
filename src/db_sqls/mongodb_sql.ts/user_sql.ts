@@ -1,5 +1,5 @@
 module.exports = {
-    getUserAll: async ()=>{
-        return ""
-    }
+  getUserAll: async () => {
+    return ''
+  },
 }

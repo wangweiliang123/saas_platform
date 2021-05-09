@@ -1,5 +1,5 @@
 module.exports = {
-    getAffairAll: async ()=>{
-        return ""
-    }
+  getAffairAll: async () => {
+    return ''
+  },
 }

@@ -13,5 +13,16 @@ module.exports = {
         browser: true,
         es6: true,
     },
-    rules:{}
+    rules: {
+        '@typescript-eslint/no-var-requires': 0,
+        "@typescript-eslint/no-explicit-any": ["off"],
+        "@typescript-eslint/explicit-module-boundary-types": ["off"],
+        "@typescript-eslint/no-this-alias": [
+            "error",
+            {
+                "allowDestructuring": true, // Allow `const { props, state } = this`; false by default
+                "allowedNames": ["self","that"] // Allow `const self = this`; `[]` by default
+            }
+    ]
+    }
 }

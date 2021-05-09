@@ -8,15 +8,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const UserServiceSql = require("../db_sqls/mysql_sql/user_sql");
+Object.defineProperty(exports, "__esModule", { value: true });
+const formatData_1 = require("../utils/formatData");
+const UserServiceSql = require('../db_sqls/mysql_sql/user_sql');
 module.exports = {
-    getUserAll: (ctx, next) => __awaiter(void 0, void 0, void 0, function* () {
+    getUserAll: (ctx, format) => __awaiter(void 0, void 0, void 0, function* () {
         return new Promise((resolve, reject) => {
-            ctx.util.mysql(UserServiceSql.getUserAll()).then((res) => {
+            ctx.util
+                .mysql(UserServiceSql.getUserAll())
+                .then((res) => {
+                if (format) {
+                    if (Object.prototype.toString.call(format) === '[object Array]') {
+                        res.result = formatData_1.dataCleaning(res.result, format);
+                    }
+                }
                 resolve(res);
-            }).catch((err) => {
+            })
+                .catch((err) => {
                 reject(err);
             });
         });
-    })
+    }),
 };

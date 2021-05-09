@@ -10,6 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 module.exports = {
     getUserAll: () => __awaiter(void 0, void 0, void 0, function* () {
-        return "";
-    })
+        return '';
+    }),
 };

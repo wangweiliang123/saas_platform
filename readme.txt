@@ -28,9 +28,20 @@
     7.安装koa-socket模块（npm i -S koa-socket）
     8.安装koa-compress中间件（npm install koa-compress --save）
     9.安装koa-socket（npm i -S koa-socket）
+    10.安装keygrip（npm install keygrip -S）
 整合路由
     1.安装依赖（npm install koa-compose -D）
     2.路由合并优化
+封装Mysql:
+封装MongoDB:
+封装Redis及配置Session:
+    1.安装依赖（npm i koa-generic-session koa-redis -S）
+    2.配置Redis
+封装Logger:
+    1.安装log4js(npm install log4js -S)
+Token验证：
+    1.安装依赖（npm install jsonwebtoken -S）
+
 
 
     

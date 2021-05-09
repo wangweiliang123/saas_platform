@@ -8,12 +8,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const UserService = require("../services/user_service");
+Object.defineProperty(exports, "__esModule", { value: true });
+const UserService = require('../services/user_service');
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const { User } = require('../models/user_model');
 module.exports = {
-    add: (ctx, next) => __awaiter(void 0, void 0, void 0, function* () {
-        UserService.getUserAll(ctx, next).then((res) => {
-            console.log(res);
+    add: (ctx) => __awaiter(void 0, void 0, void 0, function* () {
+        yield UserService.getUserAll(ctx, [
+            {
+                key: 'nickname',
+                showKey: 'name',
+            },
+            {
+                key: 'create_date',
+            },
+        ])
+            .then((res) => {
             ctx.body = res;
+        })
+            .catch((err) => {
+            ctx.body = err;
         });
-    })
+    }),
 };

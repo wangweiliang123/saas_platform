@@ -1,6 +1,6 @@
 "use strict";
 module.exports = {
     getUserAll: () => {
-        return "select * from user";
-    }
+        return 'select * from user';
+    },
 };

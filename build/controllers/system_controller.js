@@ -10,6 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 module.exports = {
     login: (ctx, next) => __awaiter(void 0, void 0, void 0, function* () {
-        ctx.body = "测试controller";
-    })
+        ctx.body = '测试controller';
+    }),
 };

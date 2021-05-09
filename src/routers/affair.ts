@@ -1,5 +1,5 @@
 // 事务审批
-const AffairController = require("../controllers/affair_controller")
+const AffairController = require('../controllers/affair_controller')
 const router_affair = require('koa-router')()
 
 router_affair.prefix('/affair')
