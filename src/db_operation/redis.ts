@@ -183,11 +183,13 @@ const redisCommon = new RedisTool({ db: 0 })
 const redisMessage = new RedisTool({ db: 1 })
 const redisToken = new RedisTool({ db: 2 })
 const redisSysData = new RedisTool({ db: 3 })
-const redisOther = new RedisTool({ db: 4 })
+const redisBlacklist = new RedisTool({ db: 4 })
+const redisOther = new RedisTool({ db: 8 })
 module.exports = {
   redisCommon,
   redisMessage,
   redisToken,
   redisSysData,
+  redisBlacklist,
   redisOther,
 }

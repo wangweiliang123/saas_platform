@@ -250,11 +250,13 @@ var redisCommon = new RedisTool({ db: 0 });
 var redisMessage = new RedisTool({ db: 1 });
 var redisToken = new RedisTool({ db: 2 });
 var redisSysData = new RedisTool({ db: 3 });
-var redisOther = new RedisTool({ db: 4 });
+var redisBlacklist = new RedisTool({ db: 4 });
+var redisOther = new RedisTool({ db: 8 });
 module.exports = {
     redisCommon: redisCommon,
     redisMessage: redisMessage,
     redisToken: redisToken,
     redisSysData: redisSysData,
+    redisBlacklist: redisBlacklist,
     redisOther: redisOther,
 };
