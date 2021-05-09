@@ -33,6 +33,12 @@ var sqlPath = '/sql';
 var sqlFileName = 'sql';
 // 信息日志输出完整路径
 var sqlLogPath = baseLogPath + sqlPath + '/' + sqlFileName;
+// 危险日志目录
+var dangerPath = '/danger';
+// 危险日志文件名
+var dangerFileName = 'danger';
+// 危险日志输出完整路径
+var dangerLogPath = baseLogPath + dangerPath + '/' + dangerFileName;
 module.exports = {
     // 日志格式等设置
     appenders: {
@@ -109,6 +115,20 @@ module.exports = {
                 type: 'basic',
             },
         },
+        dangerLogger: {
+            type: 'dateFile',
+            filename: dangerLogPath,
+            pattern: '-yyyy-MM-dd-hh.log',
+            alwaysIncludePattern: true,
+            encoding: 'utf-8',
+            maxLogSize: 5000,
+            numBackups: 5,
+            path: responsePath,
+            daysToKeep: 30,
+            layout: {
+                type: 'basic',
+            },
+        },
     },
     // 供外部调用的名称和对应设置定义
     categories: {
@@ -134,6 +154,10 @@ module.exports = {
         },
         http: {
             appenders: ['http', 'console'],
+            level: 'info',
+        },
+        dangerLogger: {
+            appenders: ['dangerLogger', 'console'],
             level: 'info',
         },
     },

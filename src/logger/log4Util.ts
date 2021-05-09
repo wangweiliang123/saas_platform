@@ -12,6 +12,7 @@ const logUtil = {
   logConsole: {},
   logInfo: {},
   logSql: {},
+  logDanger: {},
 }
 // 调用预先定义的日志名称
 const resLogger = log4js.getLogger('resLogger')
@@ -19,7 +20,15 @@ const reqLogger = log4js.getLogger('http')
 const errorLogger = log4js.getLogger('errorLogger')
 const infoLogger = log4js.getLogger('infoLogger')
 const sqlLogger = log4js.getLogger('sqlLogger')
+const dangerLogger = log4js.getLogger('dangerLogger')
 const consoleLogger = log4js.getLogger()
+
+//封装危险日志
+logUtil.logDanger = function (ctx: any, info: any, resTime: any) {
+  if (ctx) {
+    dangerLogger.info(formatDangerLog(ctx, info, resTime))
+  }
+}
 
 // 封装错误日志
 logUtil.logError = function (ctx: any, error: any, resTime: any) {
@@ -57,6 +66,20 @@ logUtil.logSql = function (sql: any, ctx: any, resTime: any) {
   if (sql) {
     sqlLogger.info(formatSqlLog(sql, ctx, resTime))
   }
+}
+
+//格式化danger日志
+const formatDangerLog = function (ctx: any, info: any, resTime: any) {
+  let logText = ''
+  // 危险日志开始
+  logText += '\n' + '*************** danger log start ***************' + '\n'
+  // 危险内容
+  logText += 'danger detail: ' + '\n' + JSON.stringify(info) + '\n'
+  //请求信息
+  logText += formatReqLog(ctx, resTime, 0) + '\n'
+  // sql日志结束
+  logText += '*************** danger log end ***************' + '\n'
+  return logText
 }
 
 //格式化sql日志
@@ -154,7 +177,7 @@ const formatResLog = function (ctx: any, resTime: any) {
   // 响应日志开始
   logText += '\n' + '*************** response log start ***************' + '\n'
   // 添加请求日志
-  logText += formatReqLog(ctx.request, resTime, 0)
+  logText += formatReqLog(ctx, resTime, 0)
   // 响应状态码
   logText += 'response status: ' + ctx.status + '\n'
   // 响应内容
@@ -170,7 +193,7 @@ const formatErrorLog = function (ctx: any, err: any, resTime: any) {
   // 错误信息开始
   logText += '\n' + '*************** error log start ***************' + '\n'
   // 添加请求日志
-  logText += formatReqLog(ctx.request, resTime, 0)
+  logText += formatReqLog(ctx, resTime, 0)
   // 错误名称
   logText += 'err name: ' + err.name + '\n'
   // 错误信息
@@ -183,10 +206,21 @@ const formatErrorLog = function (ctx: any, err: any, resTime: any) {
 }
 
 // 格式化请求日志
-const formatReqLog = function (req: any, resTime: any, type: number) {
+const formatReqLog = function (ctx: any, resTime: any, type: number) {
   let logText = ''
+  let userId = ''
+  let userName = ''
+  const req = ctx.request
+  const headerToken = ctx.request.headers['authorization'] || ctx.request.headers['token']
+  if (headerToken) {
+    const tokenInfo = ctx.util.token.getToken(headerToken)
+    if (tokenInfo) {
+      userId = tokenInfo.userId || ''
+      userName = tokenInfo.userName || ''
+    }
+  }
   const method = req ? req.method : ''
-  // 响应信息结束
+  // 响应信息开始
   if (type === 1) {
     logText += '\n' + '*************** request log start ***************' + '\n'
   }
@@ -206,6 +240,10 @@ const formatReqLog = function (req: any, resTime: any, type: number) {
   } else {
     logText += 'request body: ' + '\n' + JSON.stringify(req ? req.body : '') + '\n'
   }
+  //请求用户id
+  logText += 'request userId: ' + userId + '\n'
+  //请求用户名
+  logText += 'request userName: ' + userName + '\n'
   // 服务器响应时间
   logText += 'response time: ' + resTime || '' + '\n'
   // 响应信息结束

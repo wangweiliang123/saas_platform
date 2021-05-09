@@ -1,4 +1,6 @@
 export {}
+import { formatTime } from '../utils/timer'
+const logUtil = require('../logger/log4Util')
 import { checkToken, uncheckToken } from '../configs/system.config'
 const tokenCheck = async (ctx: any, next: any, type: number) => {
   if ((checkToken !== true && type !== 1) || uncheckToken) {
@@ -14,6 +16,7 @@ const tokenCheck = async (ctx: any, next: any, type: number) => {
       const sessionToken = ctx.session.token
       if (!headerToken) {
         console.log('此处存在token篡改行为，需发警告邮件')
+        logUtil.logDanger(ctx, '未携带token请求', formatTime(new Date().getTime()))
         ctx.status = 203
         ctx.body = {
           errMessage: '用户登录信息错误，请重新登录',
@@ -21,6 +24,7 @@ const tokenCheck = async (ctx: any, next: any, type: number) => {
       }
       if (headerToken !== sessionToken) {
         console.log('此处存在token篡改行为，需发警告邮件')
+        logUtil.logDanger(ctx, 'headerToken与sessionToken不一致', formatTime(new Date().getTime()))
         ctx.status = 203
         ctx.body = {
           errMessage: '用户登录信息错误，请重新登录',
@@ -35,7 +39,8 @@ const tokenCheck = async (ctx: any, next: any, type: number) => {
           }
           return
         } else {
-          if (!ctx.request.header.userAgent || !ctx.request.headers['hardware']) {
+          if (!ctx.request.header['user-agent'] || !ctx.request.headers['hardware']) {
+            logUtil.logDanger(ctx, '请求未携带硬件信息', formatTime(new Date().getTime()))
             ctx.status = 203
             ctx.body = {
               errMessage: '用户登录信息错误，请重新登录',
@@ -44,6 +49,7 @@ const tokenCheck = async (ctx: any, next: any, type: number) => {
           } else {
             if (ctx.request.header['user-agent'] !== ctx.request.headers['hardware']) {
               console.log('此处存在token篡改行为，需发警告邮件')
+              logUtil.logDanger(ctx, '请求硬件信息不一致', formatTime(new Date().getTime()))
               ctx.status = 203
               ctx.body = {
                 errMessage: '用户登录信息错误，请重新登录',
@@ -58,6 +64,7 @@ const tokenCheck = async (ctx: any, next: any, type: number) => {
               const redisToken = res.result
               if (redisToken !== headerToken) {
                 console.log('此处存在token篡改行为，需发警告邮件')
+                logUtil.logDanger(ctx, 'headerToken与redisToken不一致', formatTime(new Date().getTime()))
                 ctx.status = 203
                 ctx.body = {
                   errMessage: '用户登录信息错误，请重新登录',

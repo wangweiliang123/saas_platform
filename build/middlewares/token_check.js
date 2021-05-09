@@ -36,6 +36,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var timer_1 = require("../utils/timer");
+var logUtil = require('../logger/log4Util');
 var system_config_1 = require("../configs/system.config");
 var tokenCheck = function (ctx, next, type) { return __awaiter(void 0, void 0, void 0, function () {
     var url, errInfo_1, headerToken_1, sessionToken, tokenInfo_1, userId, redisTokenKey;
@@ -60,6 +62,7 @@ var tokenCheck = function (ctx, next, type) { return __awaiter(void 0, void 0, v
                 sessionToken = ctx.session.token;
                 if (!headerToken_1) {
                     console.log('此处存在token篡改行为，需发警告邮件');
+                    logUtil.logDanger(ctx, '未携带token请求', timer_1.formatTime(new Date().getTime()));
                     ctx.status = 203;
                     ctx.body = {
                         errMessage: '用户登录信息错误，请重新登录',
@@ -67,6 +70,7 @@ var tokenCheck = function (ctx, next, type) { return __awaiter(void 0, void 0, v
                 }
                 if (!(headerToken_1 !== sessionToken)) return [3 /*break*/, 5];
                 console.log('此处存在token篡改行为，需发警告邮件');
+                logUtil.logDanger(ctx, 'headerToken与sessionToken不一致', timer_1.formatTime(new Date().getTime()));
                 ctx.status = 203;
                 ctx.body = {
                     errMessage: '用户登录信息错误，请重新登录',
@@ -81,7 +85,8 @@ var tokenCheck = function (ctx, next, type) { return __awaiter(void 0, void 0, v
                 };
                 return [2 /*return*/];
             case 6:
-                if (!ctx.request.header.userAgent || !ctx.request.headers['hardware']) {
+                if (!ctx.request.header['user-agent'] || !ctx.request.headers['hardware']) {
+                    logUtil.logDanger(ctx, '请求未携带硬件信息', timer_1.formatTime(new Date().getTime()));
                     ctx.status = 203;
                     ctx.body = {
                         errMessage: '用户登录信息错误，请重新登录',
@@ -91,6 +96,7 @@ var tokenCheck = function (ctx, next, type) { return __awaiter(void 0, void 0, v
                 else {
                     if (ctx.request.header['user-agent'] !== ctx.request.headers['hardware']) {
                         console.log('此处存在token篡改行为，需发警告邮件');
+                        logUtil.logDanger(ctx, '请求硬件信息不一致', timer_1.formatTime(new Date().getTime()));
                         ctx.status = 203;
                         ctx.body = {
                             errMessage: '用户登录信息错误，请重新登录',
@@ -105,6 +111,7 @@ var tokenCheck = function (ctx, next, type) { return __awaiter(void 0, void 0, v
                             var redisToken = res.result;
                             if (redisToken !== headerToken_1) {
                                 console.log('此处存在token篡改行为，需发警告邮件');
+                                logUtil.logDanger(ctx, 'headerToken与redisToken不一致', timer_1.formatTime(new Date().getTime()));
                                 ctx.status = 203;
                                 ctx.body = {
                                     errMessage: '用户登录信息错误，请重新登录',

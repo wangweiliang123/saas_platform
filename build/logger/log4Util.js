@@ -11,6 +11,7 @@ var logUtil = {
     logConsole: {},
     logInfo: {},
     logSql: {},
+    logDanger: {},
 };
 // 调用预先定义的日志名称
 var resLogger = log4js.getLogger('resLogger');
@@ -18,7 +19,14 @@ var reqLogger = log4js.getLogger('http');
 var errorLogger = log4js.getLogger('errorLogger');
 var infoLogger = log4js.getLogger('infoLogger');
 var sqlLogger = log4js.getLogger('sqlLogger');
+var dangerLogger = log4js.getLogger('dangerLogger');
 var consoleLogger = log4js.getLogger();
+//封装危险日志
+logUtil.logDanger = function (ctx, info, resTime) {
+    if (ctx) {
+        dangerLogger.info(formatDangerLog(ctx, info, resTime));
+    }
+};
 // 封装错误日志
 logUtil.logError = function (ctx, error, resTime) {
     if (ctx && error) {
@@ -54,6 +62,19 @@ logUtil.logSql = function (sql, ctx, resTime) {
     if (sql) {
         sqlLogger.info(formatSqlLog(sql, ctx, resTime));
     }
+};
+//格式化danger日志
+var formatDangerLog = function (ctx, info, resTime) {
+    var logText = '';
+    // 危险日志开始
+    logText += '\n' + '*************** danger log start ***************' + '\n';
+    // 危险内容
+    logText += 'danger detail: ' + '\n' + JSON.stringify(info) + '\n';
+    //请求信息
+    logText += formatReqLog(ctx, resTime, 0) + '\n';
+    // sql日志结束
+    logText += '*************** danger log end ***************' + '\n';
+    return logText;
 };
 //格式化sql日志
 var formatSqlLog = function (info, ctx, resTime) {
@@ -150,7 +171,7 @@ var formatResLog = function (ctx, resTime) {
     // 响应日志开始
     logText += '\n' + '*************** response log start ***************' + '\n';
     // 添加请求日志
-    logText += formatReqLog(ctx.request, resTime, 0);
+    logText += formatReqLog(ctx, resTime, 0);
     // 响应状态码
     logText += 'response status: ' + ctx.status + '\n';
     // 响应内容
@@ -165,7 +186,7 @@ var formatErrorLog = function (ctx, err, resTime) {
     // 错误信息开始
     logText += '\n' + '*************** error log start ***************' + '\n';
     // 添加请求日志
-    logText += formatReqLog(ctx.request, resTime, 0);
+    logText += formatReqLog(ctx, resTime, 0);
     // 错误名称
     logText += 'err name: ' + err.name + '\n';
     // 错误信息
@@ -177,10 +198,21 @@ var formatErrorLog = function (ctx, err, resTime) {
     return logText;
 };
 // 格式化请求日志
-var formatReqLog = function (req, resTime, type) {
+var formatReqLog = function (ctx, resTime, type) {
     var logText = '';
+    var userId = '';
+    var userName = '';
+    var req = ctx.request;
+    var headerToken = ctx.request.headers['authorization'] || ctx.request.headers['token'];
+    if (headerToken) {
+        var tokenInfo = ctx.util.token.getToken(headerToken);
+        if (tokenInfo) {
+            userId = tokenInfo.userId || '';
+            userName = tokenInfo.userName || '';
+        }
+    }
     var method = req ? req.method : '';
-    // 响应信息结束
+    // 响应信息开始
     if (type === 1) {
         logText += '\n' + '*************** request log start ***************' + '\n';
     }
@@ -201,6 +233,10 @@ var formatReqLog = function (req, resTime, type) {
     else {
         logText += 'request body: ' + '\n' + JSON.stringify(req ? req.body : '') + '\n';
     }
+    //请求用户id
+    logText += 'request userId: ' + userId + '\n';
+    //请求用户名
+    logText += 'request userName: ' + userName + '\n';
     // 服务器响应时间
     logText += 'response time: ' + resTime || '' + '\n';
     // 响应信息结束
