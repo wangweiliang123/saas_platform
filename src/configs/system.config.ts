@@ -18,4 +18,10 @@ export const tokenExpiresIn = '7d'
 //全局校验token
 export const checkToken = true
 //不校验token
-export const uncheckToken = false
+export const uncheckToken = true
+//全局校验Referer
+export const checkReferer = true
+//不校验Referer
+export const uncheckReferer = true
+// 允许的referer
+export const refererList = ['localhost', '192.168.']

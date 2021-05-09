@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uncheckToken = exports.checkToken = exports.tokenExpiresIn = exports.tokenSecret = exports.redisDatabaseForSession = exports.sessionMaxAge = exports.sessionName = exports.sessionRedis = exports.appKeys = void 0;
+exports.refererList = exports.uncheckReferer = exports.checkReferer = exports.uncheckToken = exports.checkToken = exports.tokenExpiresIn = exports.tokenSecret = exports.redisDatabaseForSession = exports.sessionMaxAge = exports.sessionName = exports.sessionRedis = exports.appKeys = void 0;
 //加密依赖
 var Keygrip = require('keygrip');
 //session,cookie加密key
@@ -20,4 +20,10 @@ exports.tokenExpiresIn = '7d';
 //全局校验token
 exports.checkToken = true;
 //不校验token
-exports.uncheckToken = false;
+exports.uncheckToken = true;
+//全局校验Referer
+exports.checkReferer = true;
+//不校验Referer
+exports.uncheckReferer = true;
+// 允许的referer
+exports.refererList = ['localhost', '192.168.'];

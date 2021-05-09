@@ -48,14 +48,14 @@ var tokenCheck = function (ctx, next, type) { return __awaiter(void 0, void 0, v
                 return [4 /*yield*/, next()];
             case 1:
                 _a.sent();
-                return [3 /*break*/, 8];
+                return [3 /*break*/, 10];
             case 2:
                 url = ctx.url.split('?')[0];
                 if (!(url === '/system/login' || url === '/system/register')) return [3 /*break*/, 4];
                 return [4 /*yield*/, next()];
             case 3:
                 _a.sent();
-                return [3 /*break*/, 8];
+                return [3 /*break*/, 10];
             case 4:
                 errInfo_1 = '用户未登录或登录已过期';
                 headerToken_1 = ctx.request.headers['authorization'] || ctx.request.headers['token'];
@@ -67,6 +67,7 @@ var tokenCheck = function (ctx, next, type) { return __awaiter(void 0, void 0, v
                     ctx.body = {
                         errMessage: '用户登录信息错误，请重新登录',
                     };
+                    return [2 /*return*/];
                 }
                 if (!(headerToken_1 !== sessionToken)) return [3 /*break*/, 5];
                 console.log('此处存在token篡改行为，需发警告邮件');
@@ -141,7 +142,11 @@ var tokenCheck = function (ctx, next, type) { return __awaiter(void 0, void 0, v
             case 7:
                 _a.sent();
                 _a.label = 8;
-            case 8: return [2 /*return*/];
+            case 8: return [4 /*yield*/, next()];
+            case 9:
+                _a.sent();
+                _a.label = 10;
+            case 10: return [2 /*return*/];
         }
     });
 }); };

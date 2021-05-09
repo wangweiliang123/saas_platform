@@ -21,6 +21,7 @@ const tokenCheck = async (ctx: any, next: any, type: number) => {
         ctx.body = {
           errMessage: '用户登录信息错误，请重新登录',
         }
+        return
       }
       if (headerToken !== sessionToken) {
         console.log('此处存在token篡改行为，需发警告邮件')
@@ -91,6 +92,7 @@ const tokenCheck = async (ctx: any, next: any, type: number) => {
           })
         }
       }
+      await next()
     }
   }
 }

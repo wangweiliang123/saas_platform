@@ -11,6 +11,7 @@ const registerRouter = require('./routers')
 const session = require('koa-generic-session')
 const RedisGet = require('koa-redis')
 const RedisConfig = require('./configs/redis.config')
+const refererCheck = require('./middlewares/referer_check')
 const tokenCheck = require('./middlewares/token_check')
 import { formatTime } from './utils/timer'
 import { appKeys, sessionRedis, sessionName, redisDatabaseForSession, sessionMaxAge } from './configs/system.config'
@@ -101,6 +102,9 @@ app.use(async (ctx: any, next: any) => {
   ctx.util.logger.logConsole(`${ctx.method} ${ctx.url} - ${ctx.exeTime}ms`)
   ctx.util.logger.logResponse(ctx, formatTime(new Date().getTime()))
 })
+
+//referer检查
+app.use(refererCheck)
 
 //token检查
 app.use(tokenCheck)
