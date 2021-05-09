@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.refererList = exports.uncheckReferer = exports.checkReferer = exports.uncheckToken = exports.checkToken = exports.tokenExpiresIn = exports.tokenSecret = exports.redisDatabaseForSession = exports.sessionMaxAge = exports.sessionName = exports.sessionRedis = exports.appKeys = void 0;
+exports.systemAcceptEmailList = exports.systemEmailKey = exports.systemSendEmailType = exports.systemSendEmail = exports.refererList = exports.uncheckReferer = exports.checkReferer = exports.uncheckToken = exports.checkToken = exports.tokenExpiresIn = exports.tokenSecret = exports.redisDatabaseForSession = exports.sessionMaxAge = exports.sessionName = exports.sessionRedis = exports.appKeys = void 0;
 //加密依赖
 var Keygrip = require('keygrip');
 //session,cookie加密key
@@ -24,6 +24,14 @@ exports.uncheckToken = true;
 //全局校验Referer
 exports.checkReferer = true;
 //不校验Referer
-exports.uncheckReferer = true;
+exports.uncheckReferer = false;
 // 允许的referer
 exports.refererList = ['localhost', '192.168.'];
+//系统发送邮箱地址
+exports.systemSendEmail = '17343133119@163.com';
+//系统发送邮箱类型
+exports.systemSendEmailType = '163';
+//系统邮箱授权码
+exports.systemEmailKey = 'SQLZHHXXZVYRFSEM';
+//系统接收邮箱列表
+exports.systemAcceptEmailList = ['2427028918@qq.com'];

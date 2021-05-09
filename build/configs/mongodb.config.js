@@ -1,7 +1,7 @@
-'use strict'
-Object.defineProperty(exports, '__esModule', { value: true })
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var MongodbConfig = {
-  dbUrl: 'mongodb://root:123456@127.0.0.1:27017/',
-  dbName: 'saas_platform',
-}
-module.exports = MongodbConfig
+    dbUrl: 'mongodb://root:123456@127.0.0.1:27017/',
+    dbName: 'saas_platform',
+};
+module.exports = MongodbConfig;

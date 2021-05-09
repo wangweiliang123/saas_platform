@@ -41,6 +41,9 @@
     1.安装log4js(npm install log4js -S)
 Token验证：
     1.安装依赖（npm install jsonwebtoken -S）
+Referer验证
+Email配置:
+    1.安装依赖（npm install nodemailer -S）
 
 
 

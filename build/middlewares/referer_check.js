@@ -37,6 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var timer_1 = require("../utils/timer");
+var sendEmails = require('../email_settings');
 var logUtil = require('../logger/log4Util');
 var system_config_1 = require("../configs/system.config");
 var refererCheck = function (ctx, next, type) { return __awaiter(void 0, void 0, void 0, function () {
@@ -54,6 +55,7 @@ var refererCheck = function (ctx, next, type) { return __awaiter(void 0, void 0,
                 errInfo = '非信任的请求环境';
                 if (!referer) {
                     console.log('此处存在referer篡改行为，需发警告邮件');
+                    sendEmails(system_config_1.systemAcceptEmailList, "\u98CE\u9669\u63D0\u793A\uFF1A\u8BF7\u6C42\u672A\u643A\u5E26referer,\u8BF7\u6C42\u4F53\uFF1A" + JSON.stringify(ctx.request), '系统报警');
                     logUtil.logDanger(ctx, '请求未携带referer', timer_1.formatTime(new Date().getTime()));
                     ctx.status = 203;
                     ctx.body = {
@@ -72,6 +74,7 @@ var refererCheck = function (ctx, next, type) { return __awaiter(void 0, void 0,
                     }
                     if (!result) {
                         console.log('此处存在referer不合法，需发警告邮件');
+                        sendEmails(system_config_1.systemAcceptEmailList, "\u98CE\u9669\u63D0\u793A\uFF1Areferer\u4E0D\u5408\u6CD5,\u8BF7\u6C42\u4F53\uFF1A" + JSON.stringify(ctx.request), '系统报警');
                         logUtil.logDanger(ctx, '请求referer不合法', timer_1.formatTime(new Date().getTime()));
                         ctx.status = 203;
                         ctx.body = {

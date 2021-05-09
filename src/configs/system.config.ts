@@ -22,6 +22,14 @@ export const uncheckToken = true
 //全局校验Referer
 export const checkReferer = true
 //不校验Referer
-export const uncheckReferer = true
+export const uncheckReferer = false
 // 允许的referer
 export const refererList = ['localhost', '192.168.']
+//系统发送邮箱地址
+export const systemSendEmail = '17343133119@163.com'
+//系统发送邮箱类型
+export const systemSendEmailType = '163'
+//系统邮箱授权码
+export const systemEmailKey = 'SQLZHHXXZVYRFSEM'
+//系统接收邮箱列表
+export const systemAcceptEmailList = ['2427028918@qq.com']

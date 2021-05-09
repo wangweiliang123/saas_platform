@@ -31,7 +31,7 @@ class DB {
       if (!that.dbClient) {
         MongoClient.connect(Config.dbUrl, { useNewUrlParser: true }, (err: any, client: any) => {
           if (err) {
-            return reject({
+            reject({
               dataStatus: 0,
               errInfo: err,
               errMessage: '数据库连接失败',

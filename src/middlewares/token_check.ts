@@ -1,7 +1,8 @@
 export {}
 import { formatTime } from '../utils/timer'
+const sendEmails = require('../email_settings')
 const logUtil = require('../logger/log4Util')
-import { checkToken, uncheckToken } from '../configs/system.config'
+import { checkToken, uncheckToken, systemAcceptEmailList } from '../configs/system.config'
 const tokenCheck = async (ctx: any, next: any, type: number) => {
   if ((checkToken !== true && type !== 1) || uncheckToken) {
     await next()
@@ -16,6 +17,11 @@ const tokenCheck = async (ctx: any, next: any, type: number) => {
       const sessionToken = ctx.session.token
       if (!headerToken) {
         console.log('此处存在token篡改行为，需发警告邮件')
+        sendEmails(
+          systemAcceptEmailList,
+          `风险提示：未携带token请求,请求体：${JSON.stringify(ctx.request)}`,
+          '系统报警',
+        )
         logUtil.logDanger(ctx, '未携带token请求', formatTime(new Date().getTime()))
         ctx.status = 203
         ctx.body = {
@@ -25,6 +31,11 @@ const tokenCheck = async (ctx: any, next: any, type: number) => {
       }
       if (headerToken !== sessionToken) {
         console.log('此处存在token篡改行为，需发警告邮件')
+        sendEmails(
+          systemAcceptEmailList,
+          `风险提示：headerToken与sessionToken不一致,请求体：${JSON.stringify(ctx.request)}`,
+          '系统报警',
+        )
         logUtil.logDanger(ctx, 'headerToken与sessionToken不一致', formatTime(new Date().getTime()))
         ctx.status = 203
         ctx.body = {
@@ -50,6 +61,11 @@ const tokenCheck = async (ctx: any, next: any, type: number) => {
           } else {
             if (ctx.request.header['user-agent'] !== ctx.request.headers['hardware']) {
               console.log('此处存在token篡改行为，需发警告邮件')
+              sendEmails(
+                systemAcceptEmailList,
+                `风险提示：请求硬件信息不一致,请求体：${JSON.stringify(ctx.request)}`,
+                '系统报警',
+              )
               logUtil.logDanger(ctx, '请求硬件信息不一致', formatTime(new Date().getTime()))
               ctx.status = 203
               ctx.body = {
@@ -65,6 +81,11 @@ const tokenCheck = async (ctx: any, next: any, type: number) => {
               const redisToken = res.result
               if (redisToken !== headerToken) {
                 console.log('此处存在token篡改行为，需发警告邮件')
+                sendEmails(
+                  systemAcceptEmailList,
+                  `风险提示：headerToken与redisToken不一致,请求体：${JSON.stringify(ctx.request)}`,
+                  '系统报警',
+                )
                 logUtil.logDanger(ctx, 'headerToken与redisToken不一致', formatTime(new Date().getTime()))
                 ctx.status = 203
                 ctx.body = {
