@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.systemAcceptEmailList = exports.systemEmailKey = exports.systemSendEmailType = exports.systemSendEmail = exports.refererList = exports.uncheckReferer = exports.checkReferer = exports.uncheckToken = exports.checkToken = exports.tokenExpiresIn = exports.tokenSecret = exports.redisDatabaseForSession = exports.sessionMaxAge = exports.sessionName = exports.sessionRedis = exports.appKeys = void 0;
+exports.systemAcceptEmailList = exports.systemEmailKey = exports.systemSendEmailType = exports.systemSendEmail = exports.refererList = exports.uncheckReferer = exports.checkReferer = exports.uncheckToken = exports.checkToken = exports.tokenExpiresIn = exports.tokenSecret = exports.redisDatabaseForSession = exports.sessionMaxAge = exports.responseWarning = exports.sessionName = exports.sessionRedis = exports.appKeys = void 0;
 //加密依赖
 var Keygrip = require('keygrip');
 //session,cookie加密key
@@ -9,6 +9,8 @@ exports.appKeys = new Keygrip(['kjasdfjdl56sadfs', 'a4dfa54asdfwasd514'], 'sha25
 exports.sessionRedis = 'appSession';
 // 前端储存的session名
 exports.sessionName = 'sessionForApp';
+// 响应警告时间
+exports.responseWarning = 800;
 // session过期时间
 exports.sessionMaxAge = 7 * 24 * 60 * 60 * 1000;
 // 储存的session的redis数据库
@@ -24,7 +26,7 @@ exports.uncheckToken = true;
 //全局校验Referer
 exports.checkReferer = true;
 //不校验Referer
-exports.uncheckReferer = false;
+exports.uncheckReferer = true;
 // 允许的referer
 exports.refererList = ['localhost', '192.168.'];
 //系统发送邮箱地址

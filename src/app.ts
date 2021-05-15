@@ -14,7 +14,14 @@ const RedisConfig = require('./configs/redis.config')
 const refererCheck = require('./middlewares/referer_check')
 const tokenCheck = require('./middlewares/token_check')
 import { formatTime } from './utils/timer'
-import { appKeys, sessionRedis, sessionName, redisDatabaseForSession, sessionMaxAge } from './configs/system.config'
+import {
+  appKeys,
+  sessionRedis,
+  sessionName,
+  redisDatabaseForSession,
+  sessionMaxAge,
+  responseWarning,
+} from './configs/system.config'
 
 //设置系统参数
 app.keys = appKeys
@@ -83,6 +90,9 @@ app.use(async (ctx: any, next: any) => {
     ctx.body.startTime = ctx.startTime
     ctx.body.endTime = ctx.endTime
     ctx.body.exeTime = ctx.exeTime
+    if (responseWarning && ctx.body.exeTime > parseInt(String(responseWarning))) {
+      ctx.util.logger.logWarning('系统警告：相应时间过长', ctx, formatTime(new Date().getTime()))
+    }
     if (ctx.body.dataStatus === undefined) {
       ctx.body.dataStatus = ''
     }

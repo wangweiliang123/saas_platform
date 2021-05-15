@@ -123,6 +123,9 @@ app.use(function (ctx, next) { return __awaiter(void 0, void 0, void 0, function
                     ctx.body.startTime = ctx.startTime;
                     ctx.body.endTime = ctx.endTime;
                     ctx.body.exeTime = ctx.exeTime;
+                    if (system_config_1.responseWarning && ctx.body.exeTime > parseInt(String(system_config_1.responseWarning))) {
+                        ctx.util.logger.logWarning('系统警告：相应时间过长', ctx, timer_1.formatTime(new Date().getTime()));
+                    }
                     if (ctx.body.dataStatus === undefined) {
                         ctx.body.dataStatus = '';
                     }

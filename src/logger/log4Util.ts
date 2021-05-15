@@ -7,6 +7,8 @@ log4js.configure(logConfig)
 
 const logUtil = {
   logError: {},
+  logWarning: {},
+  logRecord: {},
   logRequest: {},
   logResponse: {},
   logConsole: {},
@@ -21,7 +23,23 @@ const errorLogger = log4js.getLogger('errorLogger')
 const infoLogger = log4js.getLogger('infoLogger')
 const sqlLogger = log4js.getLogger('sqlLogger')
 const dangerLogger = log4js.getLogger('dangerLogger')
+const recordLogger = log4js.getLogger('recordLogger')
+const warningLogger = log4js.getLogger('warningLogger')
 const consoleLogger = log4js.getLogger()
+
+//封装系统记录
+logUtil.logRecord = function (info: any, ctx: any, resTime: any) {
+  if (ctx) {
+    recordLogger.info(formatRecordLog(info, ctx, resTime))
+  }
+}
+
+//封装系统警告
+logUtil.logWarning = function (info: any, ctx: any, resTime: any) {
+  if (ctx) {
+    warningLogger.info(formatWarningLog(info, ctx, resTime))
+  }
+}
 
 //封装危险日志
 logUtil.logDanger = function (ctx: any, info: any, resTime: any) {
@@ -68,6 +86,34 @@ logUtil.logSql = function (sql: any, ctx: any, resTime: any) {
   }
 }
 
+//格式化Warning日志
+const formatWarningLog = function (info: any, ctx: any, resTime: any) {
+  let logText = ''
+  // 系统警告日志开始
+  logText += '\n' + '*************** warning log start ***************' + '\n'
+  // 系统警告内容
+  logText += 'warning detail: ' + '\n' + JSON.stringify(info) + '\n'
+  //请求信息
+  logText += formatReqLog(ctx, resTime, 0) + '\n'
+  // 系统警告日志结束
+  logText += '*************** warning log end ***************' + '\n'
+  return logText
+}
+
+//格式化Record日志
+const formatRecordLog = function (info: any, ctx: any, resTime: any) {
+  let logText = ''
+  // 系统记录日志开始
+  logText += '\n' + '*************** record log start ***************' + '\n'
+  // 系统记录内容
+  logText += 'Record detail: ' + '\n' + JSON.stringify(info) + '\n'
+  //请求信息
+  logText += formatReqLog(ctx, resTime, 0) + '\n'
+  // 系统记录日志结束
+  logText += '*************** record log end ***************' + '\n'
+  return logText
+}
+
 //格式化danger日志
 const formatDangerLog = function (ctx: any, info: any, resTime: any) {
   let logText = ''
@@ -77,7 +123,7 @@ const formatDangerLog = function (ctx: any, info: any, resTime: any) {
   logText += 'danger detail: ' + '\n' + JSON.stringify(info) + '\n'
   //请求信息
   logText += formatReqLog(ctx, resTime, 0) + '\n'
-  // sql日志结束
+  // 危险日志结束
   logText += '*************** danger log end ***************' + '\n'
   return logText
 }
@@ -179,7 +225,7 @@ const formatResLog = function (ctx: any, resTime: any) {
   // 添加请求日志
   logText += formatReqLog(ctx, resTime, 0)
   // 响应状态码
-  logText += 'response status: ' + ctx.status + '\n'
+  logText += '\n' + 'response status: ' + ctx.status + '\n'
   // 响应内容
   logText += 'response body: ' + '\n' + JSON.stringify(ctx.body || '') + '\n'
   // 响应日志结束
@@ -245,7 +291,15 @@ const formatReqLog = function (ctx: any, resTime: any, type: number) {
   //请求用户名
   logText += 'request userName: ' + userName + '\n'
   // 服务器响应时间
-  logText += 'response time: ' + resTime || '' + '\n'
+  logText += '\n' + 'response time: ' + resTime || '' + '\n'
+  if (ctx && ctx.body) {
+    //请求开始时间
+    logText += '\n' + 'request startTime: ' + ctx.body.startTime || '' + '\n'
+    //请求结束时间
+    logText += '\n' + 'response endTime: ' + ctx.body.endTime || '' + '\n'
+    //相应时长
+    logText += '\n' + 'response duration: ' + ctx.body.exeTime || '' + '\n'
+  }
   // 响应信息结束
   if (type === 1) {
     logText += '\n' + '*************** request log end ***************' + '\n'

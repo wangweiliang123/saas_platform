@@ -46,6 +46,20 @@ const dangerFileName = 'danger'
 // 危险日志输出完整路径
 const dangerLogPath = baseLogPath + dangerPath + '/' + dangerFileName
 
+// 系统操作记录日志目录
+const recordPath = '/record'
+// 系统操作记录日志文件名
+const recordFileName = 'record'
+// 系统操作记录日志输出完整路径
+const recordLogPath = baseLogPath + recordPath + '/' + recordFileName
+
+// 警告日志目录
+const warningPath = '/warning'
+// 警告日志文件名
+const warningFileName = 'warning'
+// 警告日志输出完整路径
+const warningLogPath = baseLogPath + warningPath + '/' + warningFileName
+
 module.exports = {
   // 日志格式等设置
   appenders: {
@@ -96,13 +110,13 @@ module.exports = {
     },
     infoLogger: {
       type: 'dateFile',
-      filename: infoLogPath,
+      filename: infoPath,
       pattern: '-yyyy-MM-dd-hh.log',
       alwaysIncludePattern: true,
       encoding: 'utf-8',
       maxLogSize: 5000,
       numBackups: 5,
-      path: responsePath,
+      path: infoLogPath,
       daysToKeep: 30,
       layout: {
         type: 'basic',
@@ -116,7 +130,7 @@ module.exports = {
       encoding: 'utf-8',
       maxLogSize: 5000,
       numBackups: 5,
-      path: responsePath,
+      path: sqlPath,
       daysToKeep: 30,
       layout: {
         type: 'basic',
@@ -130,7 +144,35 @@ module.exports = {
       encoding: 'utf-8',
       maxLogSize: 5000,
       numBackups: 5,
-      path: responsePath,
+      path: dangerPath,
+      daysToKeep: 30,
+      layout: {
+        type: 'basic',
+      },
+    },
+    recordLogger: {
+      type: 'dateFile',
+      filename: recordLogPath,
+      pattern: '-yyyy-MM-dd-hh.log',
+      alwaysIncludePattern: true,
+      encoding: 'utf-8',
+      maxLogSize: 5000,
+      numBackups: 5,
+      path: recordPath,
+      daysToKeep: 30,
+      layout: {
+        type: 'basic',
+      },
+    },
+    warningLogger: {
+      type: 'dateFile',
+      filename: warningLogPath,
+      pattern: '-yyyy-MM-dd-hh.log',
+      alwaysIncludePattern: true,
+      encoding: 'utf-8',
+      maxLogSize: 5000,
+      numBackups: 5,
+      path: warningPath,
       daysToKeep: 30,
       layout: {
         type: 'basic',
@@ -165,6 +207,14 @@ module.exports = {
     },
     dangerLogger: {
       appenders: ['dangerLogger', 'console'],
+      level: 'info',
+    },
+    recordLogger: {
+      appenders: ['recordLogger', 'console'],
+      level: 'info',
+    },
+    warningLogger: {
+      appenders: ['warningLogger', 'console'],
       level: 'info',
     },
   },

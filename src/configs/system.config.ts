@@ -7,6 +7,8 @@ export const appKeys = new Keygrip(['kjasdfjdl56sadfs', 'a4dfa54asdfwasd514'], '
 export const sessionRedis = 'appSession'
 // 前端储存的session名
 export const sessionName = 'sessionForApp'
+// 响应警告时间
+export const responseWarning = 800
 // session过期时间
 export const sessionMaxAge = 7 * 24 * 60 * 60 * 1000
 // 储存的session的redis数据库
@@ -22,7 +24,7 @@ export const uncheckToken = true
 //全局校验Referer
 export const checkReferer = true
 //不校验Referer
-export const uncheckReferer = false
+export const uncheckReferer = true
 // 允许的referer
 export const refererList = ['localhost', '192.168.']
 //系统发送邮箱地址
