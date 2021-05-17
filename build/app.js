@@ -51,6 +51,7 @@ var RedisGet = require('koa-redis');
 var RedisConfig = require('./configs/redis.config');
 var refererCheck = require('./middlewares/referer_check');
 var tokenCheck = require('./middlewares/token_check');
+var schedules = require('./schedules');
 var timer_1 = require("./utils/timer");
 var system_config_1 = require("./configs/system.config");
 //设置系统参数
@@ -158,4 +159,6 @@ app.use(registerRouter());
 app.on('error', function (err, ctx) {
     ctx.util.logger.logError(ctx, err, timer_1.formatTime(new Date().getTime()));
 });
+//定时任务
+schedules();
 module.exports = app;

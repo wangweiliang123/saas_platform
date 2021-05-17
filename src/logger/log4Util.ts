@@ -239,13 +239,17 @@ const formatErrorLog = function (ctx: any, err: any, resTime: any) {
   // 错误信息开始
   logText += '\n' + '*************** error log start ***************' + '\n'
   // 添加请求日志
-  logText += formatReqLog(ctx, resTime, 0)
+  if (ctx) {
+    logText += formatReqLog(ctx, resTime, 0)
+  }
   // 错误名称
-  logText += 'err name: ' + err.name + '\n'
+  logText += 'err name: ' + `${err.name || ''}` + '\n'
   // 错误信息
-  logText += 'err message: ' + err.message + '\n'
+  logText += 'err message: ' + `${err.message || ''}` + '\n'
   // 错误详情
-  logText += 'err stack: ' + err.stack + '\n'
+  logText += 'err stack: ' + `${err.stack || ''}` + '\n'
+  //错误info
+  logText += 'err info: ' + JSON.stringify(err) + '\n'
   // 错误信息结束
   logText += '*************** error log end ***************' + '\n'
   return logText

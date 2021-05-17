@@ -1,7 +1,7 @@
 export {}
 const UserService = require('../services/user_service')
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { User } = require('../models/user_model')
+const { User } = require('../models/mysql_models/user_model')
 module.exports = {
   add: async (ctx: any) => {
     await UserService.getUserAll(ctx, [

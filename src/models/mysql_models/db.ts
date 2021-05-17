@@ -1,6 +1,6 @@
 export {}
 const Sequelize = require('sequelize')
-const mysqlConfig = require('../configs/mysql.config')
+const mysqlConfig = require('../../configs/mysql.config')
 // 使用sequelize操作数据库，必须导入数据库依赖包，这里导的是mysql2
 const sequelize = new Sequelize(mysqlConfig.database, mysqlConfig.user, mysqlConfig.password, {
   dialect: 'mysql',

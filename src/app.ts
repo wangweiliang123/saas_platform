@@ -13,6 +13,7 @@ const RedisGet = require('koa-redis')
 const RedisConfig = require('./configs/redis.config')
 const refererCheck = require('./middlewares/referer_check')
 const tokenCheck = require('./middlewares/token_check')
+const schedules = require('./schedules')
 import { formatTime } from './utils/timer'
 import {
   appKeys,
@@ -126,5 +127,8 @@ app.use(registerRouter())
 app.on('error', (err: any, ctx: any) => {
   ctx.util.logger.logError(ctx, err, formatTime(new Date().getTime()))
 })
+
+//定时任务
+schedules()
 
 module.exports = app

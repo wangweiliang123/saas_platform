@@ -35,3 +35,5 @@ export const systemSendEmailType = '163'
 export const systemEmailKey = 'SQLZHHXXZVYRFSEM'
 //系统接收邮箱列表
 export const systemAcceptEmailList = ['2427028918@qq.com']
+// 定时任务
+export const schedule = false

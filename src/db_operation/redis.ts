@@ -61,6 +61,7 @@ class RedisTool implements redisTool {
       })
       .catch((err) => {
         logUtil.logSql(JSON.stringify(err), '', formatTime(new Date().getTime()))
+        logUtil.logError('', err, '', formatTime(new Date().getTime()))
       })
   }
 

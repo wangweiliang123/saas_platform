@@ -34,6 +34,8 @@
     2.路由合并优化
 封装Mysql:
 封装MongoDB:
+    1.安装依赖（npm i mongoose -S）
+    2.配置数据库
 封装Redis及配置Session:
     1.安装依赖（npm i koa-generic-session koa-redis -S）
     2.配置Redis
@@ -44,6 +46,9 @@ Token验证：
 Referer验证
 Email配置:
     1.安装依赖（npm install nodemailer -S）
+定时任务配置
+    1.安装依赖（npm install node-schedule -S）
+    2.配置定时任务
 
 
 

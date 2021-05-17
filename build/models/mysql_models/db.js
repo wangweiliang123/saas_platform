@@ -1,7 +1,7 @@
 'use strict'
 Object.defineProperty(exports, '__esModule', { value: true })
 var Sequelize = require('sequelize')
-var mysqlConfig = require('../configs/mysql.config')
+var mysqlConfig = require('../../configs/mysql.config')
 // 使用sequelize操作数据库，必须导入数据库依赖包，这里导的是mysql2
 var sequelize = new Sequelize(mysqlConfig.database, mysqlConfig.user, mysqlConfig.password, {
   dialect: 'mysql',
