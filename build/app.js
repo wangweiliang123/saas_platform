@@ -49,6 +49,7 @@ var registerRouter = require('./routers');
 var session = require('koa-generic-session');
 var RedisGet = require('koa-redis');
 var RedisConfig = require('./configs/redis.config');
+var securityCheck = require('./middlewares/security_check');
 var refererCheck = require('./middlewares/referer_check');
 var tokenCheck = require('./middlewares/token_check');
 var schedules = require('./schedules');
@@ -149,6 +150,8 @@ app.use(function (ctx, next) { return __awaiter(void 0, void 0, void 0, function
         }
     });
 }); });
+//安全检验
+app.use(securityCheck);
 //referer检查
 app.use(refererCheck);
 //token检查

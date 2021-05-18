@@ -25,8 +25,12 @@ export const uncheckToken = true
 export const checkReferer = true
 //不校验Referer
 export const uncheckReferer = true
+//全局安全校验
+export const checkSecurity = true
+//不进行安全校验
+export const uncheckSecurity = false
 // 允许的referer
-export const refererList = ['localhost', '192.168.']
+export const refererList = ['localhost', '192.168.', '127.0.0.']
 //系统发送邮箱地址
 export const systemSendEmail = '17343133119@163.com'
 //系统发送邮箱类型
@@ -35,5 +39,22 @@ export const systemSendEmailType = '163'
 export const systemEmailKey = 'SQLZHHXXZVYRFSEM'
 //系统接收邮箱列表
 export const systemAcceptEmailList = ['2427028918@qq.com']
+//系统计时器时间列表
+export const timerList = [
+  -1,
+  60,
+  5 * 60,
+  10 * 60,
+  15 * 60,
+  30 * 60,
+  60 * 60,
+  2 * 60 * 60,
+  6 * 60 * 60,
+  10 * 60 * 60,
+  12 * 60 * 60,
+  24 * 60 * 60,
+  7 * 24 * 60 * 60,
+  30 * 24 * 60 * 60,
+]
 // 定时任务
 export const schedule = false

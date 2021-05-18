@@ -87,6 +87,25 @@ BlackList.init(
       type: Sequelize.INTEGER(2),
       defaultValue: 0,
     },
+    //最后查询时间
+    end_search_time: {
+      typ: Sequelize.INTEGER(20),
+    },
+    //最后编辑时间
+    end_edit_time: {
+      typ: Sequelize.INTEGER(20),
+    },
+    //资源关系
+    resources_relationship: {
+      type: Sequelize.STRING(200),
+    },
+    //最大引用量
+    total_quote: {
+      typ: Sequelize.INTEGER(12),
+    },
+    already_quote: {
+      typ: Sequelize.INTEGER(12),
+    },
     //资源权限
     jurisdiction: {
       type: Sequelize.STRING(100),

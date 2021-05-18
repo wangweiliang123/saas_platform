@@ -11,6 +11,7 @@ const registerRouter = require('./routers')
 const session = require('koa-generic-session')
 const RedisGet = require('koa-redis')
 const RedisConfig = require('./configs/redis.config')
+const securityCheck = require('./middlewares/security_check')
 const refererCheck = require('./middlewares/referer_check')
 const tokenCheck = require('./middlewares/token_check')
 const schedules = require('./schedules')
@@ -113,6 +114,9 @@ app.use(async (ctx: any, next: any) => {
   ctx.util.logger.logConsole(`${ctx.method} ${ctx.url} - ${ctx.exeTime}ms`)
   ctx.util.logger.logResponse(ctx, formatTime(new Date().getTime()))
 })
+
+//安全检验
+app.use(securityCheck)
 
 //referer检查
 app.use(refererCheck)
