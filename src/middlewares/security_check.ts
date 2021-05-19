@@ -52,7 +52,7 @@ const securityCheck = async (ctx: any, next: any, type: number) => {
           '系统报警',
         )
         logUtil.logDanger(ctx, '请求未携带RequestMap', formatTime(new Date().getTime()))
-        await ctx.util.redis.redisBlacklist.setString(ipGet, 1, timerList[6])
+        ctx.util.redis.redisBlacklist.setString('aaaa222', 'bbbb', 3000)
         ctx.status = 203
         ctx.body = {
           errMessage: errInfo,

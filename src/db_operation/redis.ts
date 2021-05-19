@@ -85,29 +85,17 @@ class RedisTool implements redisTool {
 
   /**存储string类型的key-value */
   async setString(key: any, value: any, overTime: any) {
-    const val: any = typeof value !== 'string' ? JSON.stringify(value) : value
     const k: any = typeof key !== 'string' ? JSON.stringify(key) : key
+    const val: any = typeof value !== 'string' ? JSON.stringify(value) : value
     const t: any = typeof overTime !== 'number' ? (parseInt(overTime) > 0 ? parseInt(overTime) : -1) : overTime
     try {
       const res = await this.redis.set(k, val, t)
-      console.log(res)
-      if (res) {
-        return {
-          dataStatus: 1,
-          errInfo: '',
-          errMessage: '',
-          successMessage: 'Redis设置值成功',
-          result: res,
-        }
-      } else {
-        logUtil.logSql(JSON.stringify('Redis设置值失败'), '', formatTime(new Date().getTime()))
-        return {
-          dataStatus: 0,
-          errInfo: '',
-          errMessage: 'Redis设置值失败',
-          successMessage: '',
-          result: '',
-        }
+      return {
+        dataStatus: 1,
+        errInfo: '',
+        errMessage: '',
+        successMessage: 'Redis设置值成功',
+        result: res,
       }
     } catch (err) {
       logUtil.logSql(JSON.stringify(err), '', formatTime(new Date().getTime()))

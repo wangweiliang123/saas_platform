@@ -2,7 +2,10 @@ const path = require('path')
 const staticPath = path.join(__dirname, '../public') // 静态地址
 const viewsPath = path.join(__dirname, '../views') // 模板地址
 const Koa = require('koa')
-const app = new Koa()
+const app = new Koa({
+  proxy: true,
+  proxyIpHeader: 'X-Real-IP',
+})
 const views = require('koa-views')
 const json = require('koa-json')
 const error = require('koa-onerror')
