@@ -1,6 +1,7 @@
 node_modules
 src/build
 */build
+build
 log
 logs
 logs/*.*
