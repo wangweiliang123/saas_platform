@@ -3,6 +3,7 @@ const RedisConfigGet = require('../configs/redis.config')
 const Redis = require('koa-redis')
 const logUtil = require('../logger/log4Util')
 import { formatTime } from '../utils/timer'
+import { redisList } from '../configs/system.config'
 interface redisConfig {
   port: number
   host: string
@@ -46,10 +47,13 @@ interface redisTool {
 class RedisTool implements redisTool {
   redis: any
   config: any
-  constructor(opt: any) {
+  constructor(opt: string) {
     this.redis = null
-    if (opt) {
-      this.config = Object.assign(RedisConfigGet, opt)
+    if (opt && redisList[opt]) {
+      const setting = {
+        db: redisList[opt],
+      }
+      this.config = Object.assign(RedisConfigGet, setting)
     } else {
       this.config = RedisConfigGet
     }
@@ -89,7 +93,7 @@ class RedisTool implements redisTool {
     const val: any = typeof value !== 'string' ? JSON.stringify(value) : value
     const t: any = typeof overTime !== 'number' ? (parseInt(overTime) > 0 ? parseInt(overTime) : -1) : overTime
     try {
-      const res = await this.redis.set(k, val, t)
+      const res = await this.redis.set(k, val, t * 1000)
       return {
         dataStatus: 1,
         errInfo: '',
@@ -181,17 +185,4 @@ class RedisTool implements redisTool {
   }
 }
 
-const redisCommon = new RedisTool({ db: 0 })
-const redisMessage = new RedisTool({ db: 1 })
-const redisToken = new RedisTool({ db: 2 })
-const redisSysData = new RedisTool({ db: 3 })
-const redisBlacklist = new RedisTool({ db: 4 })
-const redisOther = new RedisTool({ db: 8 })
-module.exports = {
-  redisCommon,
-  redisMessage,
-  redisToken,
-  redisSysData,
-  redisBlacklist,
-  redisOther,
-}
+module.exports = RedisTool

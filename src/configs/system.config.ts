@@ -39,6 +39,24 @@ export const systemSendEmailType = '163'
 export const systemEmailKey = 'SQLZHHXXZVYRFSEM'
 //系统接收邮箱列表
 export const systemAcceptEmailList = ['2427028918@qq.com']
+//redis数据库
+export const redisList = {
+  redisCommon: {
+    db: 0,
+  },
+  redisMessage: {
+    db: 1,
+  },
+  redisToken: {
+    db: 2,
+  },
+  redisBlacklist: {
+    db: 3,
+  },
+  redisOther: {
+    db: 16,
+  },
+}
 //系统计时器时间列表
 export const timerList = [
   -1,
