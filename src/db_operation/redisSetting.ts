@@ -24,80 +24,78 @@ const redisTool = (opt: string) => {
   })
   return redisClient
 }
- /**存储string类型的key-value */
- async setString=(key: any, value: any, overTime: any)=> {
-    const k: any = typeof key !== 'string' ? JSON.stringify(key) : key
-    const val: any = typeof value !== 'string' ? JSON.stringify(value) : value
-    const t: any = typeof overTime !== 'number' ? (parseInt(overTime) > 0 ? parseInt(overTime) : -1) : overTime
-    try {
-      const res = await redisClient.set(k, val, t * 1000)
-      return {
-        dataStatus: 1,
-        errInfo: '',
-        errMessage: '',
-        successMessage: 'Redis设置值成功',
-        result: res,
-      }
-    } catch (err) {
-      logUtil.logSql(JSON.stringify(err), '', formatTime(new Date().getTime()))
-      return {
-        dataStatus: 0,
-        errInfo: err,
-        errMessage: 'Redis设置值失败',
-        successMessage: '',
-        result: '',
-      }
+/**存储string类型的key-value */
+const setString = async (key: any, value: any, overTime: any) => {
+  const k: any = typeof key !== 'string' ? JSON.stringify(key) : key
+  const val: any = typeof value !== 'string' ? JSON.stringify(value) : value
+  const t: any = typeof overTime !== 'number' ? (parseInt(overTime) > 0 ? parseInt(overTime) : -1) : overTime
+  try {
+    const res = await redisTool().set(k, val, t * 1000)
+    return {
+      dataStatus: 1,
+      errInfo: '',
+      errMessage: '',
+      successMessage: 'Redis设置值成功',
+      result: res,
+    }
+  } catch (err) {
+    logUtil.logSql(JSON.stringify(err), '', formatTime(new Date().getTime()))
+    return {
+      dataStatus: 0,
+      errInfo: err,
+      errMessage: 'Redis设置值失败',
+      successMessage: '',
+      result: '',
     }
   }
+}
 
-  /**获取string类型的key-value */
-  async getString=(key: any)=> {
-    const id: string = typeof key !== 'string' ? JSON.stringify(key) : key
-    try {
-      const res = await redisClient.get(id)
-      return {
-        dataStatus: 1,
-        errInfo: '',
-        errMessage: '',
-        successMessage: 'Redis获取值成功',
-        result: res,
-      }
-    } catch (err) {
-      logUtil.logSql(JSON.stringify(err), '', formatTime(new Date().getTime()))
-      return {
-        dataStatus: 0,
-        errInfo: err,
-        errMessage: 'Redis获取值失败',
-        successMessage: '',
-        result: '',
-      }
+/**获取string类型的key-value */
+const getString = async (key: any) => {
+  const id: string = typeof key !== 'string' ? JSON.stringify(key) : key
+  try {
+    const res = await redisTool().get(id)
+    return {
+      dataStatus: 1,
+      errInfo: '',
+      errMessage: '',
+      successMessage: 'Redis获取值成功',
+      result: res,
+    }
+  } catch (err) {
+    logUtil.logSql(JSON.stringify(err), '', formatTime(new Date().getTime()))
+    return {
+      dataStatus: 0,
+      errInfo: err,
+      errMessage: 'Redis获取值失败',
+      successMessage: '',
+      result: '',
     }
   }
+}
 
-  /**删除string类型的key-value */
-  async delString(key: string)=>{
-    const id: string = typeof key !== 'string' ? JSON.stringify(key) : key
-    try {
-      const res = await redisClient.destroy(id)
-      return {
-        dataStatus: 1,
-        errInfo: '',
-        errMessage: '',
-        successMessage: 'Redis删除值成功',
-        result: res,
-      }
-    } catch (err) {
-      logUtil.logSql(JSON.stringify(err), '', formatTime(new Date().getTime()))
-      return {
-        dataStatus: 0,
-        errInfo: err,
-        errMessage: 'Redis删除值失败',
-        successMessage: '',
-        result: '',
-      }
+/**删除string类型的key-value */
+const delString = async (key: string) => {
+  const id: string = typeof key !== 'string' ? JSON.stringify(key) : key
+  try {
+    const res = await redisTool().destroy(id)
+    return {
+      dataStatus: 1,
+      errInfo: '',
+      errMessage: '',
+      successMessage: 'Redis删除值成功',
+      result: res,
+    }
+  } catch (err) {
+    logUtil.logSql(JSON.stringify(err), '', formatTime(new Date().getTime()))
+    return {
+      dataStatus: 0,
+      errInfo: err,
+      errMessage: 'Redis删除值失败',
+      successMessage: '',
+      result: '',
     }
   }
-  let obj = {
-
-  }
+}
+const obj = {}
 module.exports = redisTool
