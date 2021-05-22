@@ -34,7 +34,7 @@ export const uncheckReferer = true
 //全局安全校验
 export const checkSecurity = true
 //不进行安全校验
-export const uncheckSecurity = false
+export const uncheckSecurity = true
 // 允许的referer
 export const refererList = ['localhost', '192.168.', '127.0.0.']
 //系统发送邮箱地址

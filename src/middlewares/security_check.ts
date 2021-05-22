@@ -2,8 +2,8 @@ export {}
 import { formatTime } from '../utils/timer'
 const sendEmails = require('../email_settings')
 const logUtil = require('../logger/log4Util')
-const SystemServiceSql = require('../db_sqls/mysql_sql/system_sql')
 const addToBlackList = require('../utils/functions/addToBlack')
+const getTokenInfo = require('../utils/functions/getTokenInfo')
 import { checkSecurity, uncheckSecurity, systemAcceptEmailList, timerList } from '../configs/system.config'
 const securityCheck = async (ctx: any, next: any, type: number) => {
   if ((checkSecurity !== true && type !== 1) || uncheckSecurity) {
@@ -51,10 +51,19 @@ const securityCheck = async (ctx: any, next: any, type: number) => {
             '系统报警',
           )
           logUtil.logDanger(ctx, '存在强刷接口风险', formatTime(new Date().getTime()))
-          const redis = await ctx.util.redisTool('redisBlacklist')
-          if (redis) {
-            redis.setString(ipGet, 1, timerList[timer])
+          const userId = await getTokenInfo(ctx, 'userId')
+          if (userId) {
+            addToBlackList(ctx, 1, [], userId, timerList[timer])
+            if (timer === 0) {
+              addToBlackList(ctx, 2, [userId])
+            }
+          } else {
+            addToBlackList(ctx, 1, [], ipGet, timerList[timer])
+            if (timer === 0) {
+              addToBlackList(ctx, 2, [userId])
+            }
           }
+          addToBlackList(ctx, 1, [], userId, timerList[6])
           ctx.status = 203
           ctx.body = {
             errMessage: errInfo,
@@ -77,14 +86,7 @@ const securityCheck = async (ctx: any, next: any, type: number) => {
           '系统报警',
         )
         logUtil.logDanger(ctx, '请求未携带RequestMap', formatTime(new Date().getTime()))
-        let userId = ctx.session.userId
-        if (!userId) {
-          const headerToken = ctx.request.headers['token'] || ctx.request.headers['authorization']
-          if (headerToken) {
-            const tokenInfo = ctx.util.token.getToken(headerToken)
-            userId = tokenInfo.userId
-          }
-        }
+        const userId = await getTokenInfo(ctx, 'userId')
         if (userId) {
           addToBlackList(ctx, 1, [], userId, timerList[6])
           addToBlackList(ctx, 2, [userId])

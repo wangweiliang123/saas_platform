@@ -15,12 +15,12 @@ const setToken = (obj: any) => {
 }
 const getToken = (obj: string) => {
   if (!obj) {
-    return false
+    return ''
   }
   try {
     return jwt.verify(obj, tokenSecret)
   } catch {
-    return false
+    return ''
   }
 }
 module.exports = {
