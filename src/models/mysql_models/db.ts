@@ -9,11 +9,8 @@ const sequelize = new Sequelize(mysqlConfig.database, mysqlConfig.user, mysqlCon
   logging: true, // 是否显示SQL语句
   timezone: '+08:00', // 时区，如果没有设置，会导致数据库中的时间字段与中国时区时间相差8小时
   define: {
-    timestamps: true, // 是否自动创建时间字段， 默认会自动创建createdAt、updatedAt
-    paranoid: true, // 是否自动创建deletedAt字段
-    createdAt: 'create_date', // 重命名字段
-    updatedAt: 'update_date',
-    deletedAt: 'delete_date',
+    timestamps: false, // 是否自动创建时间字段， 默认会自动创建createdAt、updatedAt
+    paranoid: false, // 是否自动创建deletedAt字段
     underscored: true, // 开启下划线命名方式，默认是驼峰命名
   },
 })

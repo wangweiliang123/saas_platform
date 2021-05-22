@@ -9,6 +9,12 @@ export const sessionRedis = 'appSession'
 export const sessionName = 'sessionForApp'
 // 响应警告时间
 export const responseWarning = 800
+// 系统所有者id
+export const systemUserId = 111111111
+// 系统所有者角色id
+export const systemRoleId = 111111111
+// 系统所有者组织id
+export const systemOrganizationId = 111111111
 // session过期时间
 export const sessionMaxAge = 7 * 24 * 60 * 60 * 1000
 // 储存的session的redis数据库
