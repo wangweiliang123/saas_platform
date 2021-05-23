@@ -4,10 +4,8 @@ const getTokenInfo = require('./getTokenInfo')
 const isInBlacklist = async (ctx: any, type = 1) => {
   const result = 0
   const userInfo = await getTokenInfo(ctx, ['userId', 'userRoleId', 'userOrganizationId'], type)
-  if (!userInfo) {
-    return result
-  } else {
-    return 1
+  if (userInfo) {
   }
+  return result
 }
 module.exports = isInBlacklist
