@@ -1,3 +1,4 @@
+export {}
 const getTokenInfo = async (ctx: any, info: any, type = 1) => {
   if (!ctx) {
     return ''
@@ -21,6 +22,7 @@ const getTokenInfo = async (ctx: any, info: any, type = 1) => {
         }
         infoGet.push(obj)
       }
+      return infoGet
     }
   }
   if (!infoGet && type === 2) {

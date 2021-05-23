@@ -1,3 +1,4 @@
+export {}
 const SystemServiceSql = require('../../db_sqls/mysql_sql/system_sql')
 const getTokenInfo = require('./getTokenInfo')
 import { systemUserId, systemRoleId, systemOrganizationId } from '../../configs/system.config'
