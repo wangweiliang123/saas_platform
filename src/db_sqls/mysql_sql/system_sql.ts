@@ -1,4 +1,5 @@
 import { randomString } from '../../utils/system'
+import { prefixList } from '../../configs/system.config'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { BlackList } = require('../../models/mysql_models/blacklist_model')
 import { formatTime } from '../../utils/timer'
@@ -21,7 +22,7 @@ module.exports = {
     if (!userGetId && !ip && !organizationGetId && !roleGetId) {
       return ''
     }
-    const singleId = randomString()
+    const singleId = randomString(prefixList.data)
     const sql = `INSERT INTO blacklist (create_date,unique_id,creater_id,creater_role_id,creater_organization_id,belong_organization,type${
       ip ? ',ip' : ''
     }${userGetId ? ',user_id' : ''}${organizationGetId ? ',organization_id' : ''}${

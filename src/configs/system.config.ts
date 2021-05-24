@@ -51,6 +51,12 @@ export const systemSendEmailType = '163'
 export const systemEmailKey = 'SQLZHHXXZVYRFSEM'
 //系统接收邮箱列表
 export const systemAcceptEmailList = ['2427028918@qq.com']
+export const prefixList = {
+  data: 10000,
+  resource: 20000,
+  user: 30000,
+  organization: 31000,
+}
 //redis数据库
 export const redisList = {
   redisCommon: {
