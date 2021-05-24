@@ -1,6 +1,7 @@
 const path = require('path')
 const staticPath = path.join(__dirname, '../public') // 静态地址
-const viewsPath = path.join(__dirname, '../views') // 模板地址
+const viewsPath = path.join(__dirname, '../views') // 模板地
+const cors = require('koa2-cors') // CORS是一个W3C标准，全称是"跨域资源共享"
 const Koa = require('koa')
 const app = new Koa({
   proxy: true,
@@ -33,6 +34,13 @@ import {
 app.keys = appKeys
 // error handler
 error(app)
+
+//允许跨域
+app.use(
+  cors({
+    exposeHeaders: ['appKey', 'token'], //设置获取其他自定义字段
+  }),
+)
 
 // middlewares
 /*

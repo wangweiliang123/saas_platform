@@ -2,7 +2,9 @@ export {}
 const UserService = require('../services/user_service')
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { User } = require('../models/mysql_models/user_model')
+import { checkRequestMethod } from '../decorators/requestMethod'
 class userController {
+  @checkRequestMethod(['get'])
   async add(ctx: any) {
     await UserService.getUserAll(ctx, [
       {
