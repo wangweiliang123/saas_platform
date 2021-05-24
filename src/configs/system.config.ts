@@ -15,6 +15,8 @@ export const systemUserId = 111111111
 export const systemRoleId = 111111111
 // 系统所有者组织id
 export const systemOrganizationId = 111111111
+// 系统所有者组织编码
+export const systemOrganization = 'adsda45asdfafa'
 // session过期时间
 export const sessionMaxAge = 7 * 24 * 60 * 60 * 1000
 // 储存的session的redis数据库
@@ -38,7 +40,7 @@ export const uncheckSecurity = true
 //全局校验是否拉黑
 export const checkInBlackList = true
 //不校验是否拉黑
-export const uncheckInBlackList = false
+export const uncheckInBlackList = true
 // 允许的referer
 export const refererList = ['localhost', '192.168.', '127.0.0.']
 //系统发送邮箱地址

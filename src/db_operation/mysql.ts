@@ -6,6 +6,15 @@ const logUtil = require('../logger/log4Util')
 const mysql = require('mysql')
 const pools: any = {} //连接池
 const mysql_query = (sql: string, host = '127.0.0.1') => {
+  if (!sql) {
+    return {
+      dataStatus: 0,
+      errInfo: '',
+      errMessage: '执行数据库操作失败,sql为空',
+      result: [],
+      successMessage: '',
+    }
+  }
   if (!pools.hasOwnProperty(host)) {
     //是否存在连接池
     pools[host] = mysql.createPool(

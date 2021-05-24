@@ -2,7 +2,14 @@ export {}
 const SystemServiceSql = require('../../db_sqls/mysql_sql/system_sql')
 const getTokenInfo = require('./getTokenInfo')
 import { systemUserId, systemRoleId, systemOrganizationId } from '../../configs/system.config'
-const addToBlackList = async (ctx: any, type: number, parameterList: Array<any>, redisName: any, overTime: any) => {
+const addToBlackList = async (
+  ctx: any,
+  type: number,
+  belongOrganization: any,
+  parameterList: Array<any>,
+  redisName: any,
+  overTime: any,
+) => {
   return new Promise(async (resolve, reject) => {
     let parameterListGet = []
     if (type === 2) {
@@ -59,7 +66,6 @@ const addToBlackList = async (ctx: any, type: number, parameterList: Array<any>,
         })
         return
       }
-      return
     } else if (type === 2 || type === 4) {
       if (!parameterList || !parameterList.length) {
         reject({
@@ -72,6 +78,7 @@ const addToBlackList = async (ctx: any, type: number, parameterList: Array<any>,
         parameterListGet[0],
         parameterListGet[1],
         parameterListGet[2],
+        belongOrganization,
         parameterListGet[3],
         parameterListGet[4],
         parameterListGet[5],
@@ -84,7 +91,7 @@ const addToBlackList = async (ctx: any, type: number, parameterList: Array<any>,
           resolve(res)
           return
         })
-        .catach((err: any) => {
+        .catch((err: any) => {
           reject(err)
         })
       return

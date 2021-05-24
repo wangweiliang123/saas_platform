@@ -31,6 +31,10 @@ BlackList.init(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    belong_organization: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
     // 是否删除
     is_delete: {
       type: DataTypes.INTEGER,

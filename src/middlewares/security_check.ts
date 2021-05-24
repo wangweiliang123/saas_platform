@@ -4,7 +4,13 @@ const sendEmails = require('../email_settings')
 const logUtil = require('../logger/log4Util')
 const addToBlackList = require('../utils/functions/addToBlack')
 const getTokenInfo = require('../utils/functions/getTokenInfo')
-import { checkSecurity, uncheckSecurity, systemAcceptEmailList, timerList } from '../configs/system.config'
+import {
+  checkSecurity,
+  uncheckSecurity,
+  systemAcceptEmailList,
+  timerList,
+  systemOrganization,
+} from '../configs/system.config'
 const securityCheck = async (ctx: any, next: any, type: number) => {
   if ((checkSecurity !== true && type !== 1) || uncheckSecurity) {
     await next()
@@ -53,17 +59,17 @@ const securityCheck = async (ctx: any, next: any, type: number) => {
           logUtil.logDanger(ctx, '存在强刷接口风险', formatTime(new Date().getTime()))
           const userId = await getTokenInfo(ctx, 'userId')
           if (userId) {
-            addToBlackList(ctx, 1, [], userId, timerList[timer])
+            addToBlackList(ctx, 1, systemOrganization, [], userId, timerList[timer])
             if (timer === 0) {
-              addToBlackList(ctx, 2, [userId])
+              addToBlackList(ctx, 2, systemOrganization, [userId])
             }
           } else {
-            addToBlackList(ctx, 1, [], ipGet, timerList[timer])
+            addToBlackList(ctx, 1, systemOrganization, [], ipGet, timerList[timer])
             if (timer === 0) {
-              addToBlackList(ctx, 2, [userId])
+              addToBlackList(ctx, systemOrganization, 2, [userId])
             }
           }
-          addToBlackList(ctx, 1, [], userId, timerList[6])
+          addToBlackList(ctx, 1, systemOrganization, [], userId, timerList[6])
           ctx.status = 203
           ctx.body = {
             errMessage: errInfo,
@@ -88,11 +94,11 @@ const securityCheck = async (ctx: any, next: any, type: number) => {
         logUtil.logDanger(ctx, '请求未携带RequestMap', formatTime(new Date().getTime()))
         const userId = await getTokenInfo(ctx, 'userId')
         if (userId) {
-          addToBlackList(ctx, 1, [], userId, timerList[6])
-          addToBlackList(ctx, 2, [userId])
+          addToBlackList(ctx, 1, systemOrganization, [], userId, timerList[6])
+          addToBlackList(ctx, 2, systemOrganization, [userId])
         } else {
-          addToBlackList(ctx, 1, [], ipGet, timerList[6])
-          addToBlackList(ctx, 2, ['', ipGet])
+          addToBlackList(ctx, 1, systemOrganization, [], ipGet, timerList[6])
+          addToBlackList(ctx, 2, systemOrganization, ['', ipGet])
         }
         ctx.status = 203
         ctx.body = {
