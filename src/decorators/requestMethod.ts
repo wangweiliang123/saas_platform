@@ -1,3 +1,4 @@
+import { checkRequestMethodSetting } from '../configs/system.config'
 export function checkRequestMethod(methodList: Array<string>) {
   // methodList为允许的方法
   return (target: any, name: string, descriptor: any) => {
@@ -5,7 +6,7 @@ export function checkRequestMethod(methodList: Array<string>) {
     return {
       ...descriptor,
       value(ctx: any, next: any) {
-        if (methodList && methodList.length) {
+        if (checkRequestMethodSetting && methodList && methodList.length) {
           let method = ctx.request.method
           method = method.toLowerCase()
           let result = false

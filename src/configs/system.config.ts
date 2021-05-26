@@ -39,6 +39,10 @@ export const checkSecurity = true
 export const uncheckSecurity = true
 //全局校验是否拉黑
 export const checkInBlackList = true
+//校验请求方法
+export const checkRequestMethodSetting = true
+//校验请求参数
+export const checkRequestParametersSetting = true
 //不校验是否拉黑
 export const uncheckInBlackList = true
 // 允许的referer
