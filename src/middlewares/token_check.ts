@@ -13,7 +13,7 @@ const tokenCheck = async (ctx: any, next: any, type: number) => {
     } else if (!ctx.request.headers['appKey']) {
       // 获取到token
       const errInfo = '用户未登录或登录已过期'
-      const headerToken = ctx.request.headers['authorization'] || ctx.request.headers['token']
+      const headerToken = ctx.request.headers['token'] || ctx.request.headers['authorization']
       const sessionToken = ctx.session.token
       if (!headerToken) {
         console.log('此处存在token篡改行为，需发警告邮件')

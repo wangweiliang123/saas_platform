@@ -1,6 +1,6 @@
 import { checkRequestParametersSetting, parameterLength } from '../configs/system.config'
 import { checkIDcard, checkPhone, checkEmail, checkInteger, regularCheck } from '../utils/validate'
-export function checkRequestParameters(requestParameters: Array<any>, paramLength: any, type = 1) {
+export function checkRequestParameters(requestParameters: Array<any>, type = 1, paramLength?: any) {
   // requestParameters为必传参数
   return (target: any, name: string, descriptor: any) => {
     const fn = descriptor.value
