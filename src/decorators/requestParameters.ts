@@ -117,6 +117,29 @@ export function checkRequestParameters(requestParameters: Array<any>, paramLengt
                   }
                 } else if (
                   result &&
+                  requestParameters[i].regularList &&
+                  requestParameters[i].regularList.length &&
+                  requestGet[requestParameters[i]]
+                ) {
+                  if (Object.prototype.toString.call(requestParameters[i].regularList) === '[object Array]') {
+                    let regularResult = true
+                    for (let j = 0; j < requestParameters[i].regularList.length; j++) {
+                      if (
+                        requestParameters[i].regularList[j] &&
+                        !regularCheck(requestParameters[i].regularList[j], requestGet[requestParameters[i]])
+                      ) {
+                        regularResult = false
+                        break
+                      }
+                    }
+                    if (!regularResult) {
+                      result = false
+                      errMessage = `请求参数${requestParameters[i]}不符合校验规则`
+                      break
+                    }
+                  }
+                } else if (
+                  result &&
                   requestParameters[i].lengthRange &&
                   requestParameters[i].lengthRange.length &&
                   requestGet[requestParameters[i]]
