@@ -14,7 +14,7 @@ import {
 const securityCheck = async (ctx: any, next: any, type: number) => {
   if ((checkSecurity !== true && type !== 1) || uncheckSecurity) {
     await next()
-  } else {
+  } else if (!(ctx.request.headers['appKey'] && ctx.request.headers['appKeyInfo'] && ctx.request.headers['appKey'])) {
     let requestMap = ctx.session.requestMap
     const errInfo = '存在安全风险，系统拒绝访问'
     const ipGet = ctx.ip
@@ -107,6 +107,8 @@ const securityCheck = async (ctx: any, next: any, type: number) => {
         return
       }
     }
+    await next()
+  } else {
     await next()
   }
 }

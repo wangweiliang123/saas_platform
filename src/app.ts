@@ -18,6 +18,7 @@ const RedisConfig = require('./configs/redis.config')
 const securityCheck = require('./middlewares/security_check')
 const refererCheck = require('./middlewares/referer_check')
 const tokenCheck = require('./middlewares/token_check')
+const appkeyCheck = require('./middlewares/appkey_check')
 const blacklistCheck = require('./middlewares/blacklist_check')
 const schedules = require('./schedules')
 import { formatTime } from './utils/timer'
@@ -38,7 +39,7 @@ error(app)
 //允许跨域
 app.use(
   cors({
-    exposeHeaders: ['appKey', 'token'], //设置获取其他自定义字段
+    exposeHeaders: ['appKey', 'appKeyInfo', 'appKeySet', 'token'], //设置获取其他自定义字段
   }),
 )
 
@@ -126,6 +127,9 @@ app.use(async (ctx: any, next: any) => {
   ctx.util.logger.logConsole(`${ctx.method} ${ctx.url} - ${ctx.exeTime}ms`)
   ctx.util.logger.logResponse(ctx, formatTime(new Date().getTime()))
 })
+
+//appkey校验
+app.use(appkeyCheck)
 
 //校验黑名单
 app.use(blacklistCheck)

@@ -33,6 +33,10 @@ export const uncheckToken = true
 export const checkReferer = true
 //不校验Referer
 export const uncheckReferer = true
+//全局appKey校验
+export const checkAppkey = true
+//不进行appKey校验
+export const uncheckAppkey = false
 //全局安全校验
 export const checkSecurity = true
 //不进行安全校验
