@@ -10,7 +10,7 @@ const tokenCheck = async (ctx: any, next: any, type: number) => {
     const url = ctx.url.split('?')[0]
     if (url === '/system/login' || url === '/system/register') {
       await next()
-    } else {
+    } else if (!ctx.request.headers['appKey']) {
       // 获取到token
       const errInfo = '用户未登录或登录已过期'
       const headerToken = ctx.request.headers['authorization'] || ctx.request.headers['token']
@@ -113,6 +113,8 @@ const tokenCheck = async (ctx: any, next: any, type: number) => {
           })
         }
       }
+      await next()
+    } else if (ctx.request.headers['appKey']) {
       await next()
     }
   }
