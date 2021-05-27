@@ -283,6 +283,8 @@ const formatReqLog = function (ctx: any, resTime: any, type: number) {
     logText += 'request originalUrl:  ' + (req.originalUrl || '') + '\n'
     // 客户端ip
     logText += 'request client ip:  ' + (req.ip || '') + '\n'
+    //请求header
+    logText += 'request header:  ' + (req.header || '') + '\n'
   }
   // 请求参数
   if (method === 'GET') {
