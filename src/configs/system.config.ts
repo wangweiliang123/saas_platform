@@ -55,6 +55,8 @@ export const systemSendEmailType = '163'
 export const systemEmailKey = 'SQLZHHXXZVYRFSEM'
 //系统接收邮箱列表
 export const systemAcceptEmailList = ['2427028918@qq.com']
+//字段长度限制
+export const parameterLength = 500
 export const prefixList = {
   data: 10000,
   resource: 20000,
